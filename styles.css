@@ -82,7 +82,7 @@ nav {
 .hero-content { max-width: 700px; text-align: center; }
 /* reduced hero font sizes by 25% */
 .hero-sub { font-size: .375rem; font-weight: 500; letter-spacing: .25em; color: var(--tan); text-transform: uppercase; margin-bottom: 1.25rem; }
-.hero-desc { font-size: .75rem; color: var(--text-muted); line-height: 1.8; margin: 0 auto 2.5rem; max-width: 500px; }
+.hero-desc { font-size: .90rem; color: var(--text-muted); line-height: 2.0; margin: 0 auto 2.9rem; max-width: 500px; }
 .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
 .hero-card {
   background: var(--white); border-radius: 20px; padding: 2rem;
