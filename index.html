@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PRE LOVED</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:wght@700;900&family=Playfair+Display:wght@400;700;900&family=Lato:wght@300;400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">PRE LOVED</div>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#categories">Shop</a></li>
+      <li><a href="#collection">Collection</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="btn-primary nav-cta">Shop Now</button>
+    <div class="cart-icon" id="cart-icon">
+      🛒 <span class="cart-count" id="cart-count">0</span>
+    </div>
+    <button class="theme-toggle" id="theme-toggle" title="Toggle dark/light mode">🌙</button>
+    <div class="hamburger" id="hamburger">&#9776;</div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <p class="hero-sub">New Season — 2026</p>
+      <h1 class="hero-slideshow">
+        <span class="slide active">More Than a Bag,<br/><em>It's a Statement.</em></span>
+        <span class="slide">Turn Heads<br/><em>Wherever You Go.</em></span>
+        <span class="slide">Carry Your<br/><em>World in Style.</em></span>
+        <span class="slide">Fall in Love With<br/><em>Your Next Bag.</em></span>
+        <span class="slide">Trendy Bags,<br/><em>Unbeatable Prices.</em></span>
+        <span class="slide">Sophistication<br/><em>You Can Carry.</em></span>
+      </h1>
+      <p class="hero-desc">Curated handbags, shoes & clothing for the woman who owns every room she walks into.</p>
+      <div class="hero-btns">
+        <a href="#collection" class="btn-primary">Explore Collection</a>
+        <a href="#categories" class="btn-ghost">Shop All</a>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-badge">New In</div>
+      <div class="hero-emoji">👜</div>
+      <p>Signature Tote</p>
+      <strong>Ksh 24,500</strong>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-bar">
+    <div class="marquee-track">
+      <span>HANDBAGS &nbsp;✦&nbsp; SHOES &nbsp;✦&nbsp; CLOTHING &nbsp;✦&nbsp; NEW ARRIVALS &nbsp;✦&nbsp; FREE SHIPPING OVER Ksh 13,000 &nbsp;✦&nbsp; HANDBAGS &nbsp;✦&nbsp; SHOES &nbsp;✦&nbsp; CLOTHING &nbsp;✦&nbsp; NEW ARRIVALS &nbsp;✦&nbsp; FREE SHIPPING OVER Ksh 13,000 &nbsp;✦&nbsp;</span>
+    </div>
+  </div>
+
+  <!-- CATEGORIES -->
+  <section class="categories" id="categories">
+    <h2>Shop By Category</h2>
+    <div class="cat-grid">
+      <div class="cat-card">
+        <div class="cat-icon">👜</div>
+        <h3>Handbags</h3>
+        <p>Totes, clutches, crossbodies & more</p>
+      </div>
+      <div class="cat-card featured">
+        <span class="badge">Best Seller</span>
+        <div class="cat-icon">👠</div>
+        <h3>Shoes</h3>
+        <p>Heels, sneakers, mules & sandals</p>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">👗</div>
+        <h3>Clothing</h3>
+        <p>Dresses, sets, tops & outerwear</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- COLLECTION -->
+  <section class="collection" id="collection">
+    <div class="collection-header">
+      <div class="filter-tabs">
+        <button class="tab active" data-filter="bags">Bags</button>
+        <button class="tab" data-filter="shoes">Shoes</button>
+        <button class="tab" data-filter="clothing">Clothing</button>
+      </div>
+    </div>
+    <div class="products-grid" id="products">
+      <div class="product-card" data-cat="bags">
+        <div class="product-img"><img src="BAG 1.jpg" alt="Bag 1" /><div class="overlay"><button class="quick-add">Quick Add</button></div></div>
+        <span class="product-tag">Handbag</span>
+        <h4>Bag No. 1</h4>
+        <strong>Ksh 24,500</strong>
+      </div>
+      <div class="product-card" data-cat="bags">
+        <div class="product-img"><img src="BAG 2.jpg" alt="Bag 2" /><div class="overlay"><button class="quick-add">Quick Add</button></div></div>
+        <span class="product-tag">Handbag</span>
+        <h4>Bag No. 2</h4>
+        <strong>Ksh 21,400</strong>
+      </div>
+      <div class="product-card" data-cat="bags">
+        <div class="product-img"><img src="BAG 3.jpg" alt="Bag 3" /><div class="overlay"><button class="quick-add">Quick Add</button></div></div>
+        <span class="product-tag">Handbag</span>
+        <h4>Bag No. 3</h4>
+        <strong>Ksh 27,200</strong>
+      </div>
+      <div class="product-card" data-cat="bags">
+        <div class="product-img"><img src="BAG 4.jpg" alt="Bag 4" /><div class="overlay"><button class="quick-add">Quick Add</button></div></div>
+        <span class="product-tag">Handbag</span>
+        <h4>Bag No. 4</h4>
+        <strong>Ksh 22,700</strong>
+      </div>
+      <div class="product-card" data-cat="bags">
+        <span class="badge">New</span>
+        <div class="product-img"><img src="BAG 5.jpg" alt="Bag 5" /><div class="overlay"><button class="quick-add">Quick Add</button></div></div>
+        <span class="product-tag">Handbag</span>
+        <h4>Bag No. 5</h4>
+        <strong>Ksh 25,300</strong>
+      </div>
+      <div class="product-card" data-cat="bags">
+        <div class="product-img"><img src="BAG 6.jpg" alt="Bag 6" /><div class="overlay"><button class="quick-add">Quick Add</button></div></div>
+        <span class="product-tag">Handbag</span>
+        <h4>Bag No. 6</h4>
+        <strong>Ksh 20,100</strong>
+      </div>
+      <div class="product-card" data-cat="bags">
+        <div class="product-img"><img src="BAG 7.jpg" alt="Bag 7" /><div class="overlay"><button class="quick-add">Quick Add</button></div></div>
+        <span class="product-tag">Handbag</span>
+        <h4>Bag No. 7</h4>
+        <strong>Ksh 28,500</strong>
+      </div>
+      <div class="product-card" data-cat="bags">
+        <span class="badge">New</span>
+        <div class="product-img"><img src="BAG 8.jpg" alt="Bag 8" /><div class="overlay"><button class="quick-add">Quick Add</button></div></div>
+        <span class="product-tag">Handbag</span>
+        <h4>Bag No. 8</h4>
+        <strong>Ksh 24,000</strong>
+      </div>
+      <div class="product-card" data-cat="bags">
+        <div class="product-img"><img src="BAG 9.jpg" alt="Bag 9" /><div class="overlay"><button class="quick-add">Quick Add</button></div></div>
+        <span class="product-tag">Handbag</span>
+        <h4>Bag No. 9</h4>
+        <strong>Ksh 25,900</strong>
+      </div>
+      <div class="product-card" data-cat="bags">
+        <div class="product-img"><img src="BAG 10.jpg" alt="Bag 10" /><div class="overlay"><button class="quick-add">Quick Add</button></div></div>
+        <span class="product-tag">Handbag</span>
+        <h4>Bag No. 10</h4>
+        <strong>Ksh 31,100</strong>
+      </div>
+      <div class="product-card" data-cat="shoes">
+        <div class="product-img"><img src="Shoe 1.jpg" alt="Shoe 1" /><div class="overlay"><button class="quick-add">Quick Add</button></div></div>
+        <span class="product-tag">Shoes</span><h4>Shoe No. 1</h4><strong>Ksh 8,500</strong>
+      </div>
+      <div class="product-card" data-cat="shoes">
+        <div class="product-img"><img src="Shoe 2.jpg" alt="Shoe 2" /><div class="overlay"><button class="quick-add">Quick Add</button></div></div>
+        <span class="product-tag">Shoes</span><h4>Shoe No. 2</h4><strong>Ksh 9,200</strong>
+      </div>
+      <div class="product-card" data-cat="shoes">
+        <span class="badge">New</span>
+        <div class="product-img"><img src="Shoe 3.jpg" alt="Shoe 3" /><div class="overlay"><button class="quick-add">Quick Add</button></div></div>
+        <span class="product-tag">Shoes</span><h4>Shoe No. 3</h4><strong>Ksh 10,500</strong>
+      </div>
+      <div class="product-card" data-cat="shoes">
+        <div class="product-img"><img src="Shoe 4.jpg" alt="Shoe 4" /><div class="overlay"><button class="quick-add">Quick Add</button></div></div>
+        <span class="product-tag">Shoes</span><h4>Shoe No. 4</h4><strong>Ksh 7,800</strong>
+      </div>
+      <div class="product-card" data-cat="shoes">
+        <div class="product-img"><img src="Shoe 5.jpg" alt="Shoe 5" /><div class="overlay"><button class="quick-add">Quick Add</button></div></div>
+        <span class="product-tag">Shoes</span><h4>Shoe No. 5</h4><strong>Ksh 11,000</strong>
+      </div>
+      <div class="product-card" data-cat="shoes">
+        <div class="product-img"><img src="Shoe 6.jpg" alt="Shoe 6" /><div class="overlay"><button class="quick-add">Quick Add</button></div></div>
+        <span class="product-tag">Shoes</span><h4>Shoe No. 6</h4><strong>Ksh 9,500</strong>
+      </div>
+      <div class="product-card" data-cat="shoes">
+        <span class="badge">New</span>
+        <div class="product-img"><img src="Shoe 7.jpg" alt="Shoe 7" /><div class="overlay"><button class="quick-add">Quick Add</button></div></div>
+        <span class="product-tag">Shoes</span><h4>Shoe No. 7</h4><strong>Ksh 12,000</strong>
+      </div>
+      <div class="product-card" data-cat="shoes">
+        <div class="product-img"><img src="Shoe 8.jpg" alt="Shoe 8" /><div class="overlay"><button class="quick-add">Quick Add</button></div></div>
+        <span class="product-tag">Shoes</span><h4>Shoe No. 8</h4><strong>Ksh 8,900</strong>
+      </div>
+      <div class="product-card" data-cat="shoes">
+        <div class="product-img"><img src="Shoe 9.jpg" alt="Shoe 9" /><div class="overlay"><button class="quick-add">Quick Add</button></div></div>
+        <span class="product-tag">Shoes</span><h4>Shoe No. 9</h4><strong>Ksh 10,200</strong>
+      </div>
+      <div class="product-card" data-cat="shoes">
+        <div class="product-img"><img src="Shoe 10.jpg" alt="Shoe 10" /><div class="overlay"><button class="quick-add">Quick Add</button></div></div>
+        <span class="product-tag">Shoes</span><h4>Shoe No. 10</h4><strong>Ksh 13,500</strong>
+      </div>
+      <div class="product-card" data-cat="shoes">
+        <div class="product-img"><img src="Shoe 11.jpg" alt="Shoe 11" /><div class="overlay"><button class="quick-add">Quick Add</button></div></div>
+        <span class="product-tag">Shoes</span><h4>Shoe No. 11</h4><strong>Ksh 9,800</strong>
+      </div>
+      <div class="product-card" data-cat="shoes">
+        <span class="badge">New</span>
+        <div class="product-img"><img src="Shoe 12.jpg" alt="Shoe 12" /><div class="overlay"><button class="quick-add">Quick Add</button></div></div>
+        <span class="product-tag">Shoes</span><h4>Shoe No. 12</h4><strong>Ksh 14,000</strong>
+      </div>
+      <div class="product-card" data-cat="clothing">
+        <div class="product-img">👗<div class="overlay"><button class="quick-add">Quick Add</button></div></div>
+        <span class="product-tag">Dress</span>
+        <h4>Pink Midi Dress</h4>
+        <strong>Ksh 22,700</strong>
+      </div>
+      <div class="product-card" data-cat="clothing">
+        <span class="badge">New</span>
+        <div class="product-img">🧥<div class="overlay"><button class="quick-add">Quick Add</button></div></div>
+        <span class="product-tag">Outerwear</span>
+        <h4>Camel Wrap Coat</h4>
+        <strong>Ksh 38,200</strong>
+      </div>
+    </div>
+  </section>
+
+  <!-- BANNER -->
+  <section class="banner">
+    <p>Limited Edition Drop</p>
+    <h2>The Signature Series</h2>
+    <p>Handcrafted. Timeless. Exclusively yours.</p>
+    <a href="#categories" class="btn-primary">Discover Now</a>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-text">
+      <p class="section-label">Our Story</p>
+      <h2>Grab Your Masterpiece</h2>
+      <p>At PRE LOVED, we believe that great style should never be out of reach. Every handbag, pair of shoes, and clothing piece in our collection is personally handpicked and inspected to meet the highest standards — so what reaches you is nothing short of exceptional. Our pre-loved items are sourced from premium brands and treated with care, giving you luxury quality at prices that make sense. We are passionate about fashion that tells a story, and every piece we sell carries character, craftsmanship, and class. When you shop with us, you're not just buying an item — you're investing in something timeless.</p>
+      <ul class="pillars">
+        <li>✦ Premium Quality Materials</li>
+        <li>✦ Thoughtfully Curated Designs</li>
+        <li>✦ Made for the Modern Woman</li>
+      </ul>
+    </div>
+    <div class="about-stats">
+      <div class="stat"><h3>5K+</h3><p>Happy Customers</p></div>
+      <div class="stat"><h3>200+</h3><p>Unique Styles</p></div>
+      <div class="stat"><h3>3</h3><p>Collections</p></div>
+      <div class="stat"><h3>100%</h3><p>Style Guaranteed</p></div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="newsletter">
+    <h2>Join the PRE LOVED List</h2>
+    <p>Early access to drops, exclusive offers & style inspo — straight to your inbox.</p>
+    <form id="newsletter-form">
+      <input type="email" placeholder="Enter your email address" required />
+      <button type="submit">Subscribe</button>
+    </form>
+    <p id="newsletter-msg"></p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="contact">
+    <div class="footer-grid">
+      <div>
+        <h3>PRE LOVED</h3>
+        <p>Fashion that speaks before you do.</p>
+      </div>
+      <div>
+        <h4>Shop</h4>
+        <ul><li><a href="#">Handbags</a></li><li><a href="#">Shoes</a></li><li><a href="#">Clothing</a></li><li><a href="#">New Arrivals</a></li></ul>
+      </div>
+      <div>
+        <h4>Help</h4>
+        <ul><li><a href="#">FAQ</a></li><li><a href="#" onclick="openShipping(event)">Shipping</a></li><li><a href="#">Returns</a></li><li><a href="#">Contact Us</a></li></ul>
+      </div>
+      <div>
+        <h4>Follow Us</h4>
+        <div class="social-links">
+          <a href="#">Instagram</a>
+          <a href="#">TikTok</a>
+          <a href="#">Pinterest</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 PRE LOVED. All rights reserved.</div>
+  </footer>
+
+  <!-- CART DRAWER -->
+  <div class="cart-overlay" id="cart-overlay"></div>
+  <div class="cart-drawer" id="cart-drawer">
+    <div class="cart-header">
+      <h3>Your Cart</h3>
+      <button class="cart-close" id="cart-close">✕</button>
+    </div>
+    <div class="cart-items" id="cart-items">
+      <p class="cart-empty">Your cart is empty.</p>
+    </div>
+    <div class="cart-footer" id="cart-footer" style="display:none">
+      <div class="cart-total">Total: <strong id="cart-total">Ksh 0</strong></div>
+      <div class="cart-footer-btns">
+        <a href="#collection" class="btn-ghost" onclick="closeCart()">Continue Shopping</a>
+        <button class="btn-primary" onclick="openPayModal()">BUY NOW</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAYMENT MODAL -->
+  <div class="modal-overlay" id="pay-modal">
+    <div class="pay-modal-box">
+      <div class="pay-modal-header">
+        <h3>Choose Payment Method</h3>
+        <button onclick="closePayModal()">✕</button>
+      </div>
+      <p class="pay-modal-total">Total: <strong id="pay-modal-total"></strong></p>
+      <div class="pay-methods">
+
+        <div class="pay-method">
+          <div class="pay-method-header" onclick="togglePayInput('mpesa')">
+            <span class="pay-badge mpesa-badge">M-PESA</span>
+            <span class="pay-chevron">›</span>
+          </div>
+          <div class="pay-input-area" id="pay-mpesa">
+            <label>M-Pesa Phone Number</label>
+            <input type="tel" placeholder="e.g. 0712 345 678" />
+            <button class="confirm-pay" onclick="confirmPay('M-Pesa')">Confirm &amp; Pay</button>
+          </div>
+        </div>
+
+        <div class="pay-method">
+          <div class="pay-method-header" onclick="togglePayInput('visa')">
+            <span class="pay-badge visa-badge">VISA</span>
+            <span class="pay-chevron">›</span>
+          </div>
+          <div class="pay-input-area" id="pay-visa">
+            <label>Card Number</label>
+            <input type="text" placeholder="1234 5678 9012 3456" maxlength="19" />
+            <button class="confirm-pay" onclick="confirmPay('Visa')">Confirm &amp; Pay</button>
+          </div>
+        </div>
+
+        <div class="pay-method">
+          <div class="pay-method-header" onclick="togglePayInput('paypal')">
+            <span class="pay-badge paypal-badge">PayPal</span>
+            <span class="pay-chevron">›</span>
+          </div>
+          <div class="pay-input-area" id="pay-paypal">
+            <label>PayPal Email</label>
+            <input type="email" placeholder="you@email.com" />
+            <button class="confirm-pay" onclick="confirmPay('PayPal')">Confirm &amp; Pay</button>
+          </div>
+        </div>
+
+        <div class="pay-method">
+          <div class="pay-method-header" onclick="togglePayInput('equity')">
+            <span class="pay-badge equity-badge">Equity</span>
+            <span class="pay-chevron">›</span>
+          </div>
+          <div class="pay-input-area" id="pay-equity">
+            <label>Equity Account / Phone</label>
+            <input type="text" placeholder="e.g. 0712 345 678" />
+            <button class="confirm-pay" onclick="confirmPay('Equity')">Confirm &amp; Pay</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- SHIPPING MODAL -->
+  <div class="modal-overlay" id="shipping-modal">
+    <div class="pay-modal-box" style="max-width:380px">
+      <div class="pay-modal-header">
+        <h3>Shipping & Delivery</h3>
+        <button onclick="document.getElementById('shipping-modal').classList.remove('open')">✕</button>
+      </div>
+      <div style="padding:2rem;color:#9a8a7a;line-height:1.9;font-size:.95rem">
+        <p style="font-size:2rem;margin-bottom:1rem">📦</p>
+        <p>We deliver <strong style="color:#c9a84c">nationwide</strong>. Once your payment is confirmed, your order will be processed and dispatched within <strong style="color:#c9a84c">24 hours</strong>.</p>
+        <br/>
+        <p>🚚 <strong style="color:#f0e6d3">Estimated Delivery: 2–4 Business Days</strong></p>
+        <br/>
+        <p>You will receive a confirmation message with tracking details once your order is on the way. For urgent orders, reach out to us directly.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- RATING MODAL -->
+  <div class="modal-overlay" id="rating-modal">
+    <div class="pay-modal-box" style="max-width:380px;text-align:center">
+      <div class="pay-modal-header">
+        <h3>Rate Your Purchase</h3>
+        <button onclick="document.getElementById('rating-modal').classList.remove('open')">✕</button>
+      </div>
+      <div style="padding:2rem">
+        <p style="color:var(--text-muted);margin-bottom:1.5rem;line-height:1.7">Thank you for your order! How would you rate your experience?</p>
+        <div class="star-row" id="star-row">
+          <span class="star" data-v="1">★</span>
+          <span class="star" data-v="2">★</span>
+          <span class="star" data-v="3">★</span>
+          <span class="star" data-v="4">★</span>
+          <span class="star" data-v="5">★</span>
+        </div>
+        <textarea id="review-text" placeholder="Leave a comment (optional)" style="width:100%;margin-top:1.25rem;padding:.75rem;border:1.5px solid var(--border);border-radius:10px;font-family:'Lato',sans-serif;font-size:.9rem;resize:none;height:90px;background:var(--bg);color:var(--text)"></textarea>
+        <button class="btn-primary" style="width:100%;margin-top:1rem" onclick="submitRating()">Submit Review</button>
+        <p id="rating-thanks" style="display:none;margin-top:1rem;color:var(--rose-dark);font-weight:700">🎉 Thank you for your review!</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

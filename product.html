@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PRE LOVED — Product</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:wght@400;700;900&family=Lato:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    .product-page { max-width: 1000px; margin: 6rem auto 4rem; padding: 0 5%; }
+    .product-layout { display: flex; gap: 4rem; flex-wrap: wrap; align-items: flex-start; }
+    .product-photo { flex: 1 1 340px; overflow: hidden; border: 1px solid #2a2018; }
+    .product-photo img { width: 100%; height: 460px; object-fit: cover; display: block; }
+    .product-details { flex: 1 1 300px; }
+    .product-details .product-tag { font-size: .75rem; font-weight: 700; letter-spacing: .2em; color: #c9a84c; text-transform: uppercase; }
+    .product-details h1 { font-size: 2.2rem; margin: .5rem 0 .75rem; color: #f5efe0; }
+    .product-details .price { font-size: 1.8rem; color: #c9a84c; font-weight: 700; margin-bottom: 1.5rem; font-family: 'Playfair Display', serif; }
+    .product-details p { color: #9a8a7a; line-height: 1.8; margin-bottom: 2rem; }
+
+    .payment-section { margin-top: 2rem; border-top: 1px solid #2a2018; padding-top: 2rem; }
+    .payment-section h3 { font-size: 1rem; margin-bottom: 1rem; color: #c9a84c; letter-spacing: .1em; text-transform: uppercase; font-family: 'Lato', sans-serif; font-weight: 700; }
+    .mpesa-box {
+      background: #0d1a0f; border: 1px solid #1a3a1f;
+      padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .mpesa-logo { font-size: 2rem; }
+    .mpesa-box .mpesa-info p { margin: 0; color: #5a9a60; font-size: .9rem; line-height: 1.6; }
+    .mpesa-box .mpesa-info strong { font-size: 1.4rem; color: #7acc7a; letter-spacing: .08em; }
+    .mpesa-steps { font-size: .85rem; color: #9a8a7a; line-height: 2.2; margin-bottom: 2rem; list-style: none; }
+    .mpesa-steps li::before { content: "→ "; color: #c9a84c; font-weight: 700; }
+
+    .buy-btn {
+      width: 100%; padding: 1.1rem; font-size: 1rem; font-weight: 700;
+      letter-spacing: .2em; text-transform: uppercase; cursor: pointer;
+      background: #c9a84c; color: #0a0a0a; border: none;
+      transition: background .2s; font-family: 'Lato', sans-serif;
+    }
+    .buy-btn:hover { background: #e8cc7a; }
+
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,.8); z-index: 200;
+      align-items: center; justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: #111111; border: 1px solid #2a2018;
+      padding: 2.5rem; max-width: 400px; width: 90%; text-align: center;
+      box-shadow: 0 0 60px rgba(201,168,76,.15);
+    }
+    .modal h2 { font-size: 1.6rem; color: #c9a84c; margin-bottom: .5rem; }
+    .modal p { color: #9a8a7a; margin-bottom: 1.5rem; line-height: 1.7; }
+    .modal .big-number { font-size: 2.2rem; font-weight: 900; color: #7acc7a; letter-spacing: .08em; margin: .5rem 0 1.5rem; font-family: 'Playfair Display', serif; }
+    .modal-close { background: #c9a84c; color: #0a0a0a; border: none; padding: .85rem 2.5rem; font-weight: 700; cursor: pointer; font-family: 'Lato', sans-serif; letter-spacing: .1em; text-transform: uppercase; }
+    .back-link { display: inline-flex; align-items: center; gap: .4rem; color: #c9a84c; font-weight: 600; margin-bottom: 2rem; font-size: .85rem; letter-spacing: .1em; text-transform: uppercase; }
+    .back-link:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">PRE LOVED</div>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index.html#categories">Shop</a></li>
+      <li><a href="index.html#collection">Collection</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger">&#9776;</div>
+  </nav>
+
+  <div class="product-page">
+    <a href="index.html" class="back-link">← Back to Collection</a>
+
+    <div class="product-layout">
+      <div class="product-photo">
+        <img id="pd-image" src="" alt="Product" />
+      </div>
+
+      <div class="product-details">
+        <span class="product-tag">Handbag</span>
+        <h1 id="pd-name"></h1>
+        <div class="price" id="pd-price"></div>
+        <p>A statement piece crafted for the woman who commands attention. Premium materials, impeccable finish, and a silhouette that turns heads — this bag is anything but ordinary.</p>
+
+        <!-- Payment -->
+        <div class="payment-section">
+          <h3>Pay via M-Pesa</h3>
+          <div class="mpesa-box">
+            <div class="mpesa-logo">📱</div>
+            <div class="mpesa-info">
+              <p>Send payment to</p>
+              <strong>0713 817 882</strong>
+              <p>PRE LOVED Store</p>
+            </div>
+          </div>
+          <ul class="mpesa-steps">
+            <li>Go to M-Pesa on your phone</li>
+            <li>Select <strong>Send Money</strong></li>
+            <li>Enter number: <strong>0713817882</strong></li>
+            <li>Enter the amount shown above</li>
+            <li>Use your bag name as reference</li>
+          </ul>
+        </div>
+
+        <button class="buy-btn" id="buy-btn">BUY NOW</button>
+        <div class="product-payment-methods">
+          <span>We accept:</span>
+          <div class="payment-badges">
+            <span class="pay-badge mpesa-badge">M-PESA</span>
+            <span class="pay-badge visa-badge">VISA</span>
+            <span class="pay-badge paypal-badge">PayPal</span>
+            <span class="pay-badge equity-badge">Equity</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirmation Modal -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal">
+      <h2>🎉 Order Confirmed!</h2>
+      <p>Thank you for choosing PRE LOVED. Complete your payment via M-Pesa to:</p>
+      <div class="big-number">0713 817 882</div>
+      <p>Send <strong id="modal-price"></strong> and use your bag name as the reference. We'll confirm your order once payment is received.</p>
+      <button class="modal-close" id="modal-close">Done</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    // Read params from URL
+    const params = new URLSearchParams(window.location.search);
+    const img = params.get('img');
+    const name = params.get('name');
+    const price = params.get('price');
+
+    document.getElementById('pd-image').src = img || '';
+    document.getElementById('pd-name').textContent = name || 'Legendary Bag';
+    document.getElementById('pd-price').textContent = price || '';
+
+    // Buy Now → modal
+    document.getElementById('buy-btn').addEventListener('click', () => {
+      document.getElementById('modal-price').textContent = price || '';
+      document.getElementById('modal').classList.add('open');
+    });
+    document.getElementById('modal-close').addEventListener('click', () => {
+      document.getElementById('modal').classList.remove('open');
+    });
+
+    // Hamburger
+    document.getElementById('hamburger').addEventListener('click', () => {
+      document.getElementById('nav-links').classList.toggle('open');
+    });
+  </script>
+</body>
+</html>
