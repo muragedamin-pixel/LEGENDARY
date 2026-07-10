@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PRE LOVED</title>
   <link rel="stylesheet" href="styles.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:wght@700;900&family=Playfair+Display:wght@400;700;900&family=Lato:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:wght@700;900&family=Playfair+Display:wght@400;700;900&family=Lato:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -26,31 +26,47 @@
     <div class="hamburger" id="hamburger">&#9776;</div>
   </nav>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-content">
-      <p class="hero-sub">New Season — 2026</p>
-      <h1 class="hero-slideshow">
-        <span class="slide active">More Than a Bag,<br/><em>It's a Statement.</em></span>
-        <span class="slide">Turn Heads<br/><em>Wherever You Go.</em></span>
-        <span class="slide">Carry Your<br/><em>World in Style.</em></span>
-        <span class="slide">Fall in Love With<br/><em>Your Next Bag.</em></span>
-        <span class="slide">Trendy Bags,<br/><em>Unbeatable Prices.</em></span>
-        <span class="slide">Sophistication<br/><em>You Can Carry.</em></span>
-      </h1>
-      <p class="hero-desc">Curated handbags, shoes & clothing for the woman who owns every room she walks into.</p>
-      <div class="hero-btns">
-        <a href="#collection" class="btn-primary">Explore Collection</a>
-        <a href="#categories" class="btn-ghost">Shop All</a>
-      </div>
+  <!-- HERO CAROUSEL -->
+  <div class="stage" id="stage">
+
+    <div class="rail" id="rail"></div>
+
+    <!-- Slide 1 -->
+    <div class="slide active" data-index="0">
+      <div class="frame"><img src="BAG 1.jpg" alt="Premium Handbag"></div>
+      <div class="scrim"></div>
     </div>
-    <div class="hero-card">
-      <div class="hero-badge">New In</div>
-      <div class="hero-emoji">👜</div>
-      <p>Signature Tote</p>
-      <strong>Ksh 24,500</strong>
+
+    <!-- Slide 2 -->
+    <div class="slide" data-index="1">
+      <div class="frame"><img src="Shoe 1.jpg" alt="Premium Shoes"></div>
+      <div class="scrim"></div>
     </div>
-  </section>
+
+    <!-- Slide 3 -->
+    <div class="slide" data-index="2">
+      <div class="frame"><img src="BAG 2.jpg" alt="Premium Handbag"></div>
+      <div class="scrim"></div>
+    </div>
+
+    <!-- Slide 4 -->
+    <div class="slide" data-index="3">
+      <div class="frame"><img src="Shoe 2.jpg" alt="Premium Shoes"></div>
+      <div class="scrim"></div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <button class="nav-btn nav-prev" id="prevBtn" aria-label="Previous">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 5l-7 7 7 7"/></svg>
+    </button>
+    <button class="nav-btn nav-next" id="nextBtn" aria-label="Next">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 5l7 7-7 7"/></svg>
+    </button>
+
+    <!-- Thumbnail Rail -->
+    <div class="thumbs" id="thumbs"></div>
+
+  </div>
 
   <!-- MARQUEE -->
   <div class="marquee-bar">
@@ -234,7 +250,7 @@
     <div class="about-text">
       <p class="section-label">Our Story</p>
       <h2>Grab Your Masterpiece</h2>
-      <p>At PRE LOVED, we believe that great style should never be out of reach. Every handbag, pair of shoes, and clothing piece in our collection is personally handpicked and inspected to meet the highest standards — so what reaches you is nothing short of exceptional. Our pre-loved items are sourced from premium brands and treated with care, giving you luxury quality at prices that make sense. We are passionate about fashion that tells a story, and every piece we sell carries character, craftsmanship, and class. When you shop with us, you're not just buying an item — you're investing in something timeless.</p>
+      <p>At PRE LOVED, we believe that great style should never be out of reach. Every handbag, pair of shoes, and clothing piece in our collection is personally handpicked and inspected to meet the highest standards of quality and design.</p>
       <ul class="pillars">
         <li>✦ Premium Quality Materials</li>
         <li>✦ Thoughtfully Curated Designs</li>
@@ -402,7 +418,7 @@
           <span class="star" data-v="4">★</span>
           <span class="star" data-v="5">★</span>
         </div>
-        <textarea id="review-text" placeholder="Leave a comment (optional)" style="width:100%;margin-top:1.25rem;padding:.75rem;border:1.5px solid var(--border);border-radius:10px;font-family:'Lato',sans-serif;font-size:.9rem;resize:none;height:90px;background:var(--bg);color:var(--text)"></textarea>
+        <textarea id="review-text" placeholder="Leave a comment (optional)" style="width:100%;margin-top:1.25rem;padding:.75rem;border:1.5px solid var(--border);border-radius:10px;font-family:'Lato',sans-serif;font-size:.9rem;color:var(--text);resize:vertical;outline:none;"></textarea>
         <button class="btn-primary" style="width:100%;margin-top:1rem" onclick="submitRating()">Submit Review</button>
         <p id="rating-thanks" style="display:none;margin-top:1rem;color:var(--rose-dark);font-weight:700">🎉 Thank you for your review!</p>
       </div>
@@ -410,5 +426,95 @@
   </div>
 
   <script src="script.js"></script>
+
+  <!-- Hero Carousel Script -->
+  <script>
+  (function(){
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const total = slides.length;
+    const railEl = document.getElementById('rail');
+    const thumbsEl = document.getElementById('thumbs');
+    const AUTOPLAY_MS = 4800;
+    let current = 0;
+    let timer = null;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // build progress rail segments
+    slides.forEach((s,i)=>{
+      const seg = document.createElement('div');
+      seg.className = 'seg';
+      seg.innerHTML = '<i></i>';
+      seg.dataset.i = i;
+      seg.addEventListener('click', ()=> goTo(i));
+      railEl.appendChild(seg);
+    });
+    const segs = Array.from(railEl.children);
+
+    // build thumbnails from each slide's image
+    slides.forEach((s,i)=>{
+      const src = s.querySelector('img').getAttribute('src');
+      const t = document.createElement('div');
+      t.className = 'thumb';
+      t.innerHTML = `<img src="${src}" alt="">`;
+      t.addEventListener('click', ()=> goTo(i));
+      thumbsEl.appendChild(t);
+    });
+    const thumbEls = Array.from(thumbsEl.children);
+
+    function render(){
+      slides.forEach((s,i)=> s.classList.toggle('active', i===current));
+      thumbEls.forEach((t,i)=> t.classList.toggle('active', i===current));
+      segs.forEach((seg,i)=>{
+        seg.classList.remove('playing','done');
+        seg.querySelector('i').style.animation = 'none';
+        if(i < current) seg.classList.add('done');
+      });
+      if(!reduced){
+        requestAnimationFrame(()=>{
+          segs[current].classList.add('playing');
+        });
+      } else {
+        segs[current].classList.add('done');
+      }
+    }
+
+    function goTo(i){
+      current = (i + total) % total;
+      render();
+      restart();
+    }
+    function next(){ goTo(current + 1); }
+    function prev(){ goTo(current - 1); }
+
+    function restart(){
+      clearTimeout(timer);
+      if(!reduced){
+        timer = setTimeout(next, AUTOPLAY_MS);
+      }
+    }
+
+    document.getElementById('nextBtn').addEventListener('click', next);
+    document.getElementById('prevBtn').addEventListener('click', prev);
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'ArrowRight') next();
+      if(e.key === 'ArrowLeft') prev();
+    });
+
+    // basic swipe support
+    let touchX = null;
+    const stage = document.getElementById('stage');
+    stage.addEventListener('touchstart', e=> touchX = e.touches[0].clientX, {passive:true});
+    stage.addEventListener('touchend', e=>{
+      if(touchX===null) return;
+      const dx = e.changedTouches[0].clientX - touchX;
+      if(Math.abs(dx) > 40){ dx < 0 ? next() : prev(); }
+      touchX = null;
+    }, {passive:true});
+
+    render();
+    restart();
+  })();
+  </script>
+
 </body>
 </html>
