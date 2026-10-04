@@ -136,7 +136,7 @@ function openShipping(event) { event.preventDefault(); document.getElementById('
 function togglePayInput(method) { ['mpesa','visa','paypal','equity'].forEach(item => document.getElementById('pay-' + item)?.classList.toggle('open', item === method)); }
 
 // ── PAYMENT AND RATING ───────────────────────────────────────────────────────
-const SERVER_URL = 'https://empress-production9.up.railway.app';
+const SERVER_URL = 'https://harmonious-flow-production-0060.up.railway.app';
 async function initiateMpesaPayment() {
   const phone = document.querySelector('#pay-mpesa input[type="tel"]')?.value.trim();
   const button = document.querySelector('#pay-mpesa .confirm-pay');
