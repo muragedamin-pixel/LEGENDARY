@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EMPRESS — Seller Store</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:wght@400;700;900&family=Lato:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ── PAGE ── */
+    .store-page { max-width: 1000px; margin: 5.5rem auto 6rem; padding: 0 5%; }
+
+    /* ── SELLER HERO ── */
+    .seller-hero {
+      display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;
+      padding: 2.5rem 2rem;
+      background: linear-gradient(135deg, var(--blush) 0%, var(--bg) 100%);
+      border: 1.5px solid var(--border);
+      border-radius: 24px;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+    .sh-avatar {
+      width: 100px; height: 100px; border-radius: 50%;
+      object-fit: cover; border: 4px solid var(--white);
+      box-shadow: 0 4px 18px rgba(196,96,122,.2);
+      flex-shrink: 0;
+    }
+    .sh-info { flex: 1; min-width: 180px; }
+    .sh-name { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--text); margin-bottom: .2rem; }
+    .sh-username { font-size: .82rem; color: var(--text-muted); margin-bottom: .5rem; }
+    .sh-bio { font-size: .88rem; color: var(--text-muted); line-height: 1.6; margin-bottom: .75rem; max-width: 500px; }
+    .sh-meta { display: flex; flex-wrap: wrap; gap: .65rem; align-items: center; }
+    .sh-tag {
+      font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+      padding: .28rem .8rem; border-radius: 20px;
+      background: var(--blush); color: var(--rose-dark); border: 1px solid var(--border);
+    }
+    .sh-contact {
+      display: inline-flex; align-items: center; gap: .4rem;
+      font-size: .82rem; font-weight: 700; color: #fff;
+      background: #25d366; padding: .4rem 1rem; border-radius: 20px;
+      text-decoration: none; transition: background .2s;
+    }
+    .sh-contact:hover { background: #1aab52; }
+
+    /* share link box */
+    .share-box {
+      display: flex; align-items: center; gap: .5rem; flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+    .share-url {
+      flex: 1; min-width: 200px; padding: .55rem 1rem;
+      background: var(--bg); border: 1.5px solid var(--border);
+      border-radius: 10px; color: var(--text-muted);
+      font-size: .78rem; font-family: 'Lato', monospace; outline: none;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      cursor: default;
+    }
+    .copy-btn {
+      background: var(--rose-dark); color: #fff; border: none;
+      padding: .55rem 1.2rem; border-radius: 10px; font-weight: 700;
+      font-size: .78rem; cursor: pointer; white-space: nowrap;
+      font-family: 'Lato', sans-serif; transition: background .2s;
+    }
+    .copy-btn:hover { background: #a84060; }
+
+    /* ── STATS BAR ── */
+    .store-stats {
+      display: flex; gap: 1.25rem; flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+    .store-stat {
+      background: var(--card); border: 1.5px solid var(--border);
+      border-radius: 14px; padding: .9rem 1.5rem; text-align: center;
+      flex: 1; min-width: 100px;
+    }
+    .store-stat h4 { font-size: 1.6rem; color: var(--rose-dark); margin-bottom: .1rem; }
+    .store-stat p { font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); }
+
+    /* ── FILTER TABS ── */
+    .store-filters { display: flex; gap: .6rem; flex-wrap: wrap; margin-bottom: 1.75rem; }
+    .sf-tab {
+      padding: .65rem 1.5rem; border: 1.5px solid var(--border); border-radius: 30px;
+      background: var(--white); cursor: pointer; font-weight: 700; font-size: .82rem;
+      letter-spacing: .08em; color: var(--text-muted); font-family: 'Lato', sans-serif;
+      transition: all .2s;
+    }
+    .sf-tab.active, .sf-tab:hover { background: var(--rose-dark); color: #fff; border-color: var(--rose-dark); }
+
+    /* ── ITEMS GRID ── */
+    .store-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.25rem;
+    }
+    .sitem-card {
+      background: var(--card); border: 1.5px solid var(--border);
+      border-radius: 16px; overflow: hidden;
+      transition: transform .25s, box-shadow .25s; cursor: pointer;
+    }
+    .sitem-card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(196,96,122,.12); }
+    .sitem-img {
+      height: 240px; background: var(--tan-light);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; position: relative;
+    }
+    .sitem-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
+    .sitem-card:hover .sitem-img img { transform: scale(1.04); }
+    .sitem-img .sitem-icon { font-size: 3.5rem; }
+    .sitem-body { padding: .9rem 1.1rem 1.1rem; }
+    .sitem-cat { font-size: .68rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--tan); margin-bottom: .25rem; }
+    .sitem-name { font-size: 1rem; color: var(--text); font-family: 'Playfair Display', serif; margin-bottom: .3rem; }
+    .sitem-price { font-size: 1.1rem; color: var(--rose-dark); font-weight: 700; font-family: 'Playfair Display', serif; margin-bottom: .5rem; }
+    .sitem-meta { font-size: .75rem; color: var(--text-muted); display: flex; gap: .5rem; flex-wrap: wrap; }
+    .sitem-meta span { background: var(--blush); padding: .2rem .6rem; border-radius: 10px; }
+    .sitem-buy {
+      display: block; width: 100%; margin-top: .75rem;
+      background: var(--rose-dark); color: #fff; border: none;
+      padding: .65rem; font-weight: 700; font-size: .82rem;
+      letter-spacing: .08em; border-radius: 10px; cursor: pointer;
+      font-family: 'Lato', sans-serif; transition: background .2s;
+    }
+    .sitem-buy:hover { background: #a84060; }
+
+    /* negotiable badge */
+    .neg-badge {
+      display: inline-block; font-size: .65rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase;
+      padding: .18rem .6rem; border-radius: 10px;
+      background: #fff3dc; color: #a06000; margin-left: .3rem;
+      vertical-align: middle;
+    }
+
+    /* ── EMPTY STATE ── */
+    .store-empty {
+      grid-column: 1/-1; text-align: center;
+      padding: 4rem 2rem; color: var(--text-muted);
+    }
+    .store-empty .se-icon { font-size: 3.5rem; margin-bottom: 1rem; }
+    .store-empty p { font-size: .95rem; line-height: 1.8; }
+
+    /* ── NOT FOUND ── */
+    .not-found {
+      text-align: center; padding: 6rem 2rem;
+      color: var(--text-muted);
+    }
+    .not-found .nf-icon { font-size: 4rem; margin-bottom: 1rem; }
+    .not-found h2 { font-size: 1.8rem; color: var(--text); margin-bottom: .75rem; }
+
+    /* ── ENQUIRY MODAL ── */
+    .enquiry-modal {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,.5); z-index: 400;
+      align-items: center; justify-content: center;
+      padding: 1rem;
+    }
+    .enquiry-modal.open { display: flex; }
+    .eq-box {
+      background: var(--white); border-radius: 20px;
+      width: 100%; max-width: 440px; max-height: 90vh; overflow-y: auto;
+      box-shadow: 0 16px 48px rgba(196,96,122,.15);
+      border: 1px solid var(--border);
+    }
+    .eq-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.4rem 1.5rem; border-bottom: 1px solid var(--border);
+    }
+    .eq-header h3 { font-size: 1rem; color: var(--rose-dark); font-family: 'Lato', sans-serif; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+    .eq-close { background: none; border: none; color: var(--text-muted); font-size: 1.2rem; cursor: pointer; }
+    .eq-body { padding: 1.5rem; }
+    .eq-item-preview {
+      display: flex; gap: 1rem; align-items: center;
+      padding: 1rem; background: var(--blush);
+      border-radius: 12px; margin-bottom: 1.25rem;
+    }
+    .eq-item-preview img {
+      width: 64px; height: 64px; object-fit: cover;
+      border-radius: 8px; border: 1px solid var(--border); flex-shrink: 0;
+    }
+    .eq-item-preview .eq-icon { font-size: 2rem; flex-shrink: 0; }
+    .eq-item-info .eq-iname { font-size: .95rem; color: var(--text); font-weight: 600; }
+    .eq-item-info .eq-iprice { font-size: 1.05rem; color: var(--rose-dark); font-family: 'Playfair Display', serif; font-weight: 700; }
+    .eq-actions {
+      display: flex; flex-direction: column; gap: .75rem;
+    }
+    .eq-wa {
+      display: flex; align-items: center; justify-content: center; gap: .6rem;
+      background: #25d366; color: #fff; border: none; border-radius: 12px;
+      padding: 1rem; font-size: .95rem; font-weight: 700;
+      cursor: pointer; font-family: 'Lato', sans-serif; transition: background .2s;
+      text-decoration: none;
+    }
+    .eq-wa:hover { background: #1aab52; }
+    .eq-call {
+      display: flex; align-items: center; justify-content: center; gap: .6rem;
+      background: var(--blush); color: var(--rose-dark); border: 1.5px solid var(--border);
+      border-radius: 12px; padding: 1rem; font-size: .95rem; font-weight: 700;
+      cursor: pointer; font-family: 'Lato', sans-serif; transition: all .2s;
+      text-decoration: none;
+    }
+    .eq-call:hover { background: var(--rose-dark); color: #fff; border-color: var(--rose-dark); }
+    .eq-note { font-size: .75rem; color: var(--text-muted); text-align: center; margin-top: .75rem; line-height: 1.6; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .seller-hero { gap: 1.5rem; }
+      .store-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+    }
+    @media (max-width: 600px) {
+      .seller-hero { flex-direction: column; align-items: flex-start; padding: 1.75rem 1.25rem; }
+      .sh-avatar { width: 80px; height: 80px; }
+      .sh-name { font-size: 1.5rem; }
+      .store-grid { grid-template-columns: 1fr 1fr; gap: .85rem; }
+      .sitem-img { height: 180px; }
+    }
+    @media (max-width: 400px) {
+      .store-grid { grid-template-columns: 1fr; }
+      .sitem-img { height: 220px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="brand-block">
+      <img class="nav-brand-img" src="https://i.pinimg.com/1200x/3a/bc/de/3abcde0931ba1348f88f9f077495a2fd.jpg" alt="EMPRESS logo" />
+      <div class="nav-logo" style="font-family:'Bebas Neue';">EMPRESS</div>
+    </div>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index.html#categories">Shop</a></li>
+      <li><a href="index.html#collection">Collection</a></li>
+      <li><a href="index.html#about">About</a></li>
+    </ul>
+    <div class="nav-actions">
+      <div class="nav-auth" id="nav-auth"></div>
+      <button class="theme-toggle" id="theme-toggle">🌙</button>
+    </div>
+    <div class="hamburger" id="hamburger">&#9776;</div>
+  </nav>
+
+  <div class="store-page" id="store-page">
+    <!-- Injected by JS -->
+  </div>
+
+  <!-- ENQUIRY MODAL -->
+  <div class="enquiry-modal" id="enquiry-modal">
+    <div class="eq-box">
+      <div class="eq-header">
+        <h3>Enquire About This Item</h3>
+        <button class="eq-close" onclick="closeEnquiry()">✕</button>
+      </div>
+      <div class="eq-body" id="eq-body">
+        <!-- injected by JS -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const SERVER_URL = 'https://harmonious-flow-production-0060.up.railway.app';
+
+    // ── THEME ──────────────────────────────────────────────────────────────────
+    const themeBtn = document.getElementById('theme-toggle');
+    if (localStorage.getItem('theme') === 'dark') { document.body.classList.add('dark'); themeBtn.textContent = '☀️'; }
+    themeBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      const d = document.body.classList.contains('dark');
+      themeBtn.textContent = d ? '☀️' : '🌙';
+      localStorage.setItem('theme', d ? 'dark' : 'light');
+    });
+
+    // ── NAV AUTH ──────────────────────────────────────────────────────────────
+    (function initNav() {
+      const hamburger = document.getElementById('hamburger');
+      const navLinks  = document.getElementById('nav-links');
+      hamburger?.addEventListener('click', () => navLinks?.classList.toggle('open'));
+
+      const container = document.getElementById('nav-auth');
+      const user = JSON.parse(localStorage.getItem('authUser') || 'null');
+      if (!user) {
+        container.innerHTML = `<a class="nav-profile-btn" href="login.html" title="Sign in">👤</a>`;
+        return;
+      }
+      const p = JSON.parse(localStorage.getItem('sellerProfile') || '{}');
+      const avatar = p.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=e8a0b0&color=fff&size=36&bold=true`;
+      const first = user.name.split(' ')[0];
+      container.innerHTML = `
+        <button class="nav-avatar-btn" id="nav-user-btn" onclick="toggleDrop()">
+          <img class="nav-avatar-img" src="${avatar}" alt="${first}" />
+          <span class="nav-avatar-name">${first}</span><span class="nav-avatar-caret">▾</span>
+        </button>
+        <div class="nav-dropdown" id="nav-dropdown">
+          <a href="profile.html">👤 My Profile</a>
+          <a href="dashboard.html">🛍 My Dashboard</a>
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-logout" onclick="doLogout()">Sign Out</button>
+        </div>`;
+      document.addEventListener('click', e => {
+        const d = document.getElementById('nav-dropdown');
+        const b = document.getElementById('nav-user-btn');
+        if (d && !d.contains(e.target) && b && !b.contains(e.target)) d.classList.remove('open');
+      });
+    })();
+    function toggleDrop() { document.getElementById('nav-dropdown')?.classList.toggle('open'); }
+    function doLogout() {
+      const t = localStorage.getItem('authToken');
+      if (t) fetch(`${SERVER_URL}/auth/logout`, { method:'POST', headers:{ Authorization:`Bearer ${t}` } }).catch(()=>{});
+      localStorage.removeItem('authToken'); localStorage.removeItem('authUser'); window.location.href = 'index.html';
+    }
+
+    // ── ACTIVITY TRACKER ──────────────────────────────────────────────────────
+    function track(action, detail = '') {
+      const token = localStorage.getItem('authToken');
+      fetch(`${SERVER_URL}/activity`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...(token ? { Authorization:`Bearer ${token}` } : {}) },
+        body: JSON.stringify({ action, detail }),
+      }).catch(() => {});
+    }
+
+    // ── COPY LINK ─────────────────────────────────────────────────────────────
+    function copyLink(url) {
+      navigator.clipboard.writeText(url).then(() => {
+        const btn = document.getElementById('copy-btn');
+        btn.textContent = '✓ Copied!';
+        setTimeout(() => btn.textContent = 'Copy Link', 2000);
+      }).catch(() => {
+        const inp = document.getElementById('share-url-inp');
+        inp.select(); document.execCommand('copy');
+      });
+    }
+
+    // ── LOAD STORE ────────────────────────────────────────────────────────────
+    const params   = new URLSearchParams(window.location.search);
+    const sellerId = (params.get('seller') || '').toLowerCase().trim(); // email or username
+    const page     = document.getElementById('store-page');
+
+    if (!sellerId) {
+      page.innerHTML = `<div class="not-found"><div class="nf-icon">🔍</div><h2>No seller specified</h2><p>This link is missing a seller ID.<br/>Share your store link from your <a href="profile.html" style="color:var(--rose-dark)">profile page</a>.</p></div>`;
+    } else {
+      loadStore(sellerId);
+    }
+
+    function loadStore(id) {
+      // Pull all seller profiles + listings from localStorage
+      // Keys: sellerProfile_<email>, sellerListings (array with sellerEmail)
+      // Also support legacy single-seller localStorage
+
+      // Try to find profile by email or username
+      let profile = null;
+      let listings = [];
+
+      // Scan all localStorage keys for seller profiles
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (!key.startsWith('sellerProfile')) continue;
+        try {
+          const p = JSON.parse(localStorage.getItem(key) || '{}');
+          const email    = (p.email || key.replace('sellerProfile_', '')).toLowerCase();
+          const username = (p.username || '').toLowerCase().replace(/^@/, '');
+          if (email === id || username === id) {
+            profile = { ...p, email };
+            break;
+          }
+        } catch {}
+      }
+
+      // Fallback: single-key legacy
+      if (!profile) {
+        try {
+          const p = JSON.parse(localStorage.getItem('sellerProfile') || '{}');
+          const user = JSON.parse(localStorage.getItem('authUser') || '{}');
+          const email    = (p.email || user.email || '').toLowerCase();
+          const username = (p.username || '').toLowerCase().replace(/^@/, '');
+          if (email === id || username === id) profile = { ...p, email, name: p.name || user.name };
+        } catch {}
+      }
+
+      if (!profile) {
+        page.innerHTML = `<div class="not-found"><div class="nf-icon">😕</div><h2>Seller not found</h2><p>We couldn't find a seller with the ID <strong>${escHtml(id)}</strong>.<br/>Make sure you have the right link.</p><a href="index.html" class="btn-primary" style="display:inline-block;margin-top:1.5rem">← Back to Store</a></div>`;
+        return;
+      }
+
+      // Pull this seller's listings
+      const allListings = JSON.parse(localStorage.getItem('sellerListings') || '[]');
+      const email = profile.email;
+      // Support both per-seller and legacy listings
+      listings = allListings.filter(l => !l.sellerEmail || l.sellerEmail.toLowerCase() === email);
+      if (!listings.length) listings = allListings; // legacy: show all if no email tag
+
+      renderStore(profile, listings);
+      track('STORE_VIEW', `Seller: ${email} | Items: ${listings.length}`);
+    }
+
+    let currentFilter = 'all';
+
+    function renderStore(profile, listings) {
+      const storeUrl = `${location.origin}${location.pathname}?seller=${encodeURIComponent(profile.email)}`;
+      const avatar   = profile.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(profile.name || 'Seller')}&background=e8a0b0&color=fff&size=100&bold=true`;
+      const username = profile.username ? `<div class="sh-username">${escHtml(profile.username)}</div>` : '';
+      const bio      = profile.bio      ? `<div class="sh-bio">${escHtml(profile.bio)}</div>` : '';
+      const city     = profile.city     ? `<span class="sh-tag">📍 ${escHtml(profile.city)}</span>` : '';
+      const waPhone  = (profile.phone || '').replace(/\D/g, '');
+      const waBtn    = waPhone ? `<a class="sh-contact" href="https://wa.me/254${waPhone.replace(/^0/, '')}?text=${encodeURIComponent(`Hi! I found your store on EMPRESS.`)}" target="_blank">💬 WhatsApp</a>` : '';
+
+      const cats   = { all: listings.length, bags: 0, shoes: 0, clothing: 0 };
+      listings.forEach(l => { if (cats[l.cat] !== undefined) cats[l.cat]++; });
+
+      page.innerHTML = `
+        <!-- SELLER HERO -->
+        <div class="seller-hero">
+          <img class="sh-avatar" src="${avatar}" alt="${escHtml(profile.name || 'Seller')}" onerror="this.src='https://ui-avatars.com/api/?name=S&background=e8a0b0&color=fff&size=100&bold=true'" />
+          <div class="sh-info">
+            <div class="sh-name">${escHtml(profile.name || 'EMPRESS Seller')}</div>
+            ${username}
+            ${bio}
+            <div class="sh-meta">
+              ${city}
+              <span class="sh-tag">🛍 ${listings.length} item${listings.length !== 1 ? 's' : ''}</span>
+              ${waBtn}
+            </div>
+            <!-- Share link -->
+            <div class="share-box" style="margin-top:1rem">
+              <input class="share-url" id="share-url-inp" value="${storeUrl}" readonly onclick="this.select()" />
+              <button class="copy-btn" id="copy-btn" onclick="copyLink('${storeUrl}')">Copy Link</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- STATS -->
+        <div class="store-stats">
+          <div class="store-stat"><h4>${cats.all}</h4><p>All Items</p></div>
+          <div class="store-stat"><h4>${cats.bags}</h4><p>Bags</p></div>
+          <div class="store-stat"><h4>${cats.shoes}</h4><p>Shoes</p></div>
+          <div class="store-stat"><h4>${cats.clothing}</h4><p>Clothing</p></div>
+        </div>
+
+        <!-- FILTERS -->
+        <div class="store-filters">
+          <button class="sf-tab active" data-cat="all"      onclick="filterItems(this,'all')">All (${cats.all})</button>
+          <button class="sf-tab"        data-cat="bags"     onclick="filterItems(this,'bags')">👜 Bags (${cats.bags})</button>
+          <button class="sf-tab"        data-cat="shoes"    onclick="filterItems(this,'shoes')">👠 Shoes (${cats.shoes})</button>
+          <button class="sf-tab"        data-cat="clothing" onclick="filterItems(this,'clothing')">👗 Clothing (${cats.clothing})</button>
+        </div>
+
+        <!-- ITEMS GRID -->
+        <div class="store-grid" id="store-grid">
+          ${renderItems(listings, 'all', profile)}
+        </div>
+      `;
+
+      // store profile globally for enquiry modal
+      window._storeProfile  = profile;
+      window._storeListings = listings;
+    }
+
+    function renderItems(listings, filter, profile) {
+      const filtered = filter === 'all' ? listings : listings.filter(l => l.cat === filter);
+      if (!filtered.length) return `<div class="store-empty"><div class="se-icon">🛍</div><p>No items in this category yet.</p></div>`;
+
+      const catIcons = { bags: '👜', shoes: '👠', clothing: '👗' };
+      const catLabels = { bags: 'Handbag', shoes: 'Shoes', clothing: 'Clothing' };
+
+      return filtered.map((item, idx) => {
+        const imgHtml = item.img
+          ? `<img src="${item.img}" alt="${escHtml(item.name)}" loading="lazy" />`
+          : `<span class="sitem-icon">${catIcons[item.cat] || '🛍'}</span>`;
+        const neg = item.negotiable === 'yes' ? `<span class="neg-badge">Negotiable</span>` : '';
+        const cond = item.condition ? `<span>${escHtml(item.condition)}</span>` : '';
+        const loc  = item.location  ? `<span>📍 ${escHtml(item.location)}</span>`  : '';
+        return `
+          <div class="sitem-card" onclick="openEnquiry(${idx})">
+            <div class="sitem-img">${imgHtml}</div>
+            <div class="sitem-body">
+              <div class="sitem-cat">${catLabels[item.cat] || item.cat}</div>
+              <div class="sitem-name">${escHtml(item.name)}</div>
+              <div class="sitem-price">${escHtml(item.priceLabel || `Ksh ${item.price}`)}${neg}</div>
+              <div class="sitem-meta">${cond}${loc}</div>
+              <button class="sitem-buy" onclick="event.stopPropagation();openEnquiry(${idx})">Enquire / Buy</button>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    function filterItems(btn, cat) {
+      currentFilter = cat;
+      document.querySelectorAll('.sf-tab').forEach(t => t.classList.toggle('active', t === btn));
+      document.getElementById('store-grid').innerHTML = renderItems(window._storeListings, cat, window._storeProfile);
+      track('STORE_FILTER', `Cat: ${cat}`);
+    }
+
+    // ── ENQUIRY MODAL ─────────────────────────────────────────────────────────
+    function openEnquiry(idx) {
+      const item    = window._storeListings[idx];
+      const profile = window._storeProfile;
+      if (!item) return;
+
+      const catIcons = { bags: '👜', shoes: '👠', clothing: '👗' };
+      const imgHtml = item.img
+        ? `<img src="${item.img}" alt="${escHtml(item.name)}" />`
+        : `<span class="eq-icon">${catIcons[item.cat] || '🛍'}</span>`;
+
+      const price   = item.priceLabel || `Ksh ${item.price}`;
+      const phone   = (item.contactPhone || profile.phone || '').replace(/\D/g, '');
+      const phone254 = phone ? `254${phone.replace(/^254/, '').replace(/^0/, '')}` : '';
+      const method  = item.contactMethod || profile.preferredPayment || 'whatsapp';
+      const waMsg   = encodeURIComponent(`Hi! I'm interested in your *${item.name}* listed at *${price}* on EMPRESS. Is it still available?`);
+
+      const waBtn = phone254
+        ? `<a class="eq-wa" href="https://wa.me/${phone254}?text=${waMsg}" target="_blank">💬 WhatsApp Seller</a>`
+        : '';
+      const callBtn = phone254
+        ? `<a class="eq-call" href="tel:+${phone254}">📞 Call Seller</a>`
+        : '';
+      const noContact = (!phone254)
+        ? `<p style="color:var(--text-muted);font-size:.85rem;text-align:center">This seller hasn't provided contact details yet.</p>`
+        : '';
+
+      document.getElementById('eq-body').innerHTML = `
+        <div class="eq-item-preview">
+          ${imgHtml}
+          <div class="eq-item-info">
+            <div class="eq-iname">${escHtml(item.name)}</div>
+            <div class="eq-iprice">${escHtml(price)}</div>
+          </div>
+        </div>
+        <div class="eq-actions">
+          ${waBtn}
+          ${callBtn}
+          ${noContact}
+        </div>
+        <p class="eq-note">Message the seller directly to arrange payment and delivery.</p>
+      `;
+
+      document.getElementById('enquiry-modal').classList.add('open');
+      track('ITEM_ENQUIRY', `Item: ${item.name} | Seller: ${profile.email}`);
+    }
+
+    function closeEnquiry() {
+      document.getElementById('enquiry-modal').classList.remove('open');
+    }
+    document.getElementById('enquiry-modal').addEventListener('click', e => {
+      if (e.target === document.getElementById('enquiry-modal')) closeEnquiry();
+    });
+
+    // ── HELPER ────────────────────────────────────────────────────────────────
+    function escHtml(s) {
+      return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+  </script>
+</body>
+</html>

@@ -410,7 +410,7 @@
         <button class="ph-avatar-edit" title="Change photo" onclick="document.getElementById('ph-avatar-input').click()">✎</button>
         <input type="file" id="ph-avatar-input" accept="image/*" />
       </div>
-      <div class="ph-info">
+      <div class="ph-info" id="ph-info">
         <div class="ph-name" id="ph-name">—</div>
         <div class="ph-email" id="ph-email">—</div>
         <div class="ph-badges">
@@ -657,7 +657,10 @@
 
       <!-- My listed items -->
       <div style="margin-top:3rem">
-        <div style="font-size:1.4rem;font-family:'Playfair Display',serif;color:var(--text);margin-bottom:.3rem">My Listed Items</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:.3rem">
+          <div style="font-size:1.4rem;font-family:'Playfair Display',serif;color:var(--text)">My Listed Items</div>
+          <a id="my-store-link" href="#" target="_blank" class="btn-primary" style="font-size:.78rem;padding:.55rem 1.2rem;display:none">🔗 My Store Link</a>
+        </div>
         <div style="font-size:.75rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--tan);margin-bottom:1.25rem">Items currently in the store</div>
         <div class="my-items-grid" id="my-items-grid">
           <!-- rendered by JS -->
@@ -745,6 +748,43 @@
       if (listings.length > 0) {
         document.getElementById('ph-seller-badge').style.display = 'inline-flex';
       }
+
+      // Generate and show store link
+      if (email) {
+        const storeUrl = `${location.origin}${location.pathname.replace('profile.html','store.html')}?seller=${encodeURIComponent(email)}`;
+        const linkEl = document.getElementById('my-store-link');
+        if (linkEl) {
+          linkEl.href = storeUrl;
+          linkEl.style.display = 'inline-flex';
+        }
+        // Also show share box in hero
+        const shareBoxId = 'profile-share-box';
+        if (!document.getElementById(shareBoxId)) {
+          const box = document.createElement('div');
+          box.id = shareBoxId;
+          box.style.cssText = 'display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-top:.75rem;';
+          box.innerHTML = `
+            <span style="font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--tan)">Your Store Link</span>
+            <input id="profile-share-url" value="${storeUrl}" readonly onclick="this.select()"
+              style="flex:1;min-width:180px;padding:.45rem .9rem;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text-muted);font-size:.75rem;font-family:monospace;outline:none;cursor:default;overflow:hidden;text-overflow:ellipsis;" />
+            <button id="profile-copy-btn" onclick="copyProfileLink('${storeUrl}')"
+              style="background:var(--rose-dark);color:#fff;border:none;padding:.45rem 1rem;border-radius:8px;font-weight:700;font-size:.75rem;cursor:pointer;white-space:nowrap;font-family:'Lato',sans-serif;">
+              🔗 Copy Link
+            </button>`;
+          document.getElementById('ph-info')?.appendChild(box);
+        }
+      }
+    }
+
+    function copyProfileLink(url) {
+      navigator.clipboard.writeText(url).then(() => {
+        const btn = document.getElementById('profile-copy-btn');
+        btn.textContent = '✓ Copied!';
+        setTimeout(() => btn.textContent = '🔗 Copy Link', 2000);
+      }).catch(() => {
+        const inp = document.getElementById('profile-share-url');
+        inp?.select(); document.execCommand('copy');
+      });
     }
 
     // ── AVATAR UPLOAD ──────────────────────────────────────────────────────────
@@ -791,11 +831,11 @@
         if (pw1 !== pw2)    { pwErr.textContent = 'Passwords do not match.'; pwErr.style.display = 'block'; return; }
       }
 
-      const p = JSON.parse(localStorage.getItem('sellerProfile') || '{}');
+      const authUser = JSON.parse(localStorage.getItem('authUser') || '{}');
       const updated = {
         ...p,
         name:      document.getElementById('pi-name').value.trim(),
-        email:     document.getElementById('pi-email').value.trim(),
+        email:     document.getElementById('pi-email').value.trim() || authUser.email || p.email || '',
         phone:     document.getElementById('pi-phone').value.trim(),
         username:  document.getElementById('pi-username').value.trim(),
         bio:       document.getElementById('pi-bio').value.trim(),
@@ -804,6 +844,10 @@
         instagram: document.getElementById('pi-instagram').value.trim(),
         tiktok:    document.getElementById('pi-tiktok').value.trim(),
       };
+      // Store a per-email copy so store.html can find it
+      if (updated.email) {
+        localStorage.setItem(`sellerProfile_${updated.email}`, JSON.stringify(updated));
+      }
       localStorage.setItem('sellerProfile', JSON.stringify(updated));
 
       // Sync name to authUser
@@ -923,12 +967,13 @@
         negotiable: nego,
         delivery,
         location,
-        phone,
+        contactPhone:  phone,
         contactMethod: contactM,
-        img:        photoData.find(d => d !== null), // first non-null as cover
+        img:        photoData.find(d => d !== null),
         photos:     photoData.filter(d => d !== null),
         createdAt:  new Date().toISOString(),
         status:     'live',
+        sellerEmail: (JSON.parse(localStorage.getItem('authUser') || '{}').email || '').toLowerCase(),
       };
 
       const listings = JSON.parse(localStorage.getItem('sellerListings') || '[]');
