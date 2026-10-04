@@ -81,6 +81,7 @@ function addToCart(name, price, img) {
   cart.push({ name: String(name || ''), price: String(price || ''), img: safeImageUrl(img) });
   renderCart();
   openCart();
+  track('ADD_TO_CART', `${name} | ${price}`);
 }
 function applyFilter(filter) {
   products.forEach(card => card.classList.toggle('hidden', card.dataset.cat !== filter));
@@ -137,6 +138,22 @@ function togglePayInput(method) { ['mpesa','visa','paypal','equity'].forEach(ite
 
 // ── PAYMENT AND RATING ───────────────────────────────────────────────────────
 const SERVER_URL = 'https://harmonious-flow-production-0060.up.railway.app';
+
+// ── ACTIVITY TRACKER ─────────────────────────────────────────────────────────
+function track(action, detail = '') {
+  const token = localStorage.getItem('authToken');
+  fetch(`${SERVER_URL}/activity`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+    body: JSON.stringify({ action, detail }),
+  }).catch(() => {});
+}
+// Track page view
+track('PAGE_VIEW', 'index.html');
+
 async function initiateMpesaPayment() {
   const phone = document.querySelector('#pay-mpesa input[type="tel"]')?.value.trim();
   const button = document.querySelector('#pay-mpesa .confirm-pay');
@@ -190,7 +207,19 @@ document.getElementById('newsletter-form')?.addEventListener('submit', event => 
   document.addEventListener('click', event => { const dropdown = document.getElementById('nav-dropdown'); const button = document.getElementById('nav-user-btn'); if (dropdown && button && !dropdown.contains(event.target) && !button.contains(event.target)) dropdown.classList.remove('open'); });
 })();
 function toggleAuthDropdown() { document.getElementById('nav-dropdown')?.classList.toggle('open'); }
-function logOut() { localStorage.removeItem('authToken'); localStorage.removeItem('authUser'); window.location.reload(); }
+function logOut() {
+  const token = localStorage.getItem('authToken');
+  if (token) {
+    fetch(`${SERVER_URL}/auth/logout`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}` },
+    }).catch(() => {});
+  }
+  track('LOGOUT', 'Signed out from nav');
+  localStorage.removeItem('authToken');
+  localStorage.removeItem('authUser');
+  window.location.reload();
+}
 
 if ('IntersectionObserver' in window) {
   const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) { entry.target.style.opacity = '1'; entry.target.style.transform = 'translateY(0)'; } }), { threshold: 0.1 });

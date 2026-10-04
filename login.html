@@ -264,11 +264,9 @@
   </div>
 
   <script>
-    // ── SERVER URL ──────────────────────────────────────────────────────────
-    // Replace with your actual Railway URL
     const SERVER_URL = 'https://harmonious-flow-production-0060.up.railway.app';
 
-    // ── THEME ────────────────────────────────────────────────────────────
+    // ── THEME ────────────────────────────────────────────────────────────────
     const themeBtn = document.getElementById('theme-toggle');
     if (localStorage.getItem('theme') === 'dark') {
       document.body.classList.add('dark');
@@ -281,11 +279,34 @@
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
     });
 
-    // Redirect if already logged in
-    const existing = localStorage.getItem('authToken');
-    if (existing) window.location.href = 'dashboard.html';
+    // ── PERSISTENT SESSION CHECK ──────────────────────────────────────────────
+    // On page load, verify existing token with the server.
+    // If valid → redirect immediately. If invalid → clear and show login.
+    (async function checkSession() {
+      const token = localStorage.getItem('authToken');
+      if (!token) return; // no token, show login form
 
-    // ── TAB SWITCH ──────────────────────────────────────────────────────────
+      try {
+        const res  = await fetch(`${SERVER_URL}/auth/me`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = await res.json();
+        if (data.success) {
+          // Token still valid — update stored user and redirect
+          localStorage.setItem('authUser', JSON.stringify(data.user));
+          const redirect = new URLSearchParams(window.location.search).get('redirect') || 'dashboard.html';
+          window.location.href = redirect;
+        } else {
+          // Token expired or invalid — clear it
+          localStorage.removeItem('authToken');
+          localStorage.removeItem('authUser');
+        }
+      } catch {
+        // Network error — don't clear token, let user proceed to login manually
+      }
+    })();
+
+    // ── TAB SWITCH ────────────────────────────────────────────────────────────
     function switchTab(tab) {
       const isLogin = tab === 'login';
       document.getElementById('tab-login').classList.toggle('active', isLogin);
@@ -303,7 +324,7 @@
       btn.textContent = isText ? '👁' : '🙈';
     }
 
-    // ── ERROR ────────────────────────────────────────────────────────────
+    // ── ERROR / LOADING ───────────────────────────────────────────────────────
     function showError(msg) {
       const el = document.getElementById('auth-error');
       el.textContent = msg;
@@ -312,19 +333,34 @@
     function hideError() {
       document.getElementById('auth-error').style.display = 'none';
     }
-
     function setLoading(btnId, loading) {
       const btn = document.getElementById(btnId);
-      if (loading) {
-        btn.disabled = true;
-        btn.innerHTML = '<span class="spinner"></span> Please wait…';
-      } else {
-        btn.disabled = false;
-        btn.innerHTML = btnId === 'btn-login' ? 'Sign In' : 'Create Account';
-      }
+      btn.disabled = loading;
+      btn.innerHTML = loading
+        ? '<span class="spinner"></span> Please wait…'
+        : (btnId === 'btn-login' ? 'Sign In' : 'Create Account');
     }
 
-    // ── LOGIN ────────────────────────────────────────────────────────────
+    // ── SAVE SESSION ──────────────────────────────────────────────────────────
+    function saveSession(token, user) {
+      localStorage.setItem('authToken', token);
+      localStorage.setItem('authUser', JSON.stringify(user));
+    }
+
+    // ── ACTIVITY TRACKER ──────────────────────────────────────────────────────
+    function track(action, detail) {
+      const token = localStorage.getItem('authToken');
+      fetch(`${SERVER_URL}/activity`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ action, detail }),
+      }).catch(() => {}); // fire-and-forget
+    }
+
+    // ── LOGIN ─────────────────────────────────────────────────────────────────
     async function submitLogin(e) {
       e.preventDefault();
       hideError();
@@ -333,16 +369,12 @@
 
       setLoading('btn-login', true);
       try {
-        const res = await fetch(`${SERVER_URL}/auth/login`, {
+        const res  = await fetch(`${SERVER_URL}/auth/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password }),
         });
-
-        if (!res.ok) {
-          throw new Error(`Server returned ${res.status}`);
-        }
-
+        if (!res.ok) throw new Error(`Server ${res.status}`);
         const data = await res.json();
 
         if (!data.success) {
@@ -351,20 +383,20 @@
           return;
         }
 
-        localStorage.setItem('authToken', data.token);
-        localStorage.setItem('authUser', JSON.stringify(data.user));
+        saveSession(data.token, data.user);
+        track('LOGIN', 'Signed in via login page');
 
         const redirect = new URLSearchParams(window.location.search).get('redirect') || 'dashboard.html';
         window.location.href = redirect;
 
-      } catch (error) {
-        console.error('Login error:', error);
-        showError('Could not reach the server. Please try again.');
+      } catch (err) {
+        console.error('Login error:', err);
+        showError('Could not reach the server. Please check your connection.');
         setLoading('btn-login', false);
       }
     }
 
-    // ── REGISTER ───────────────────────────────────────────────────────────
+    // ── REGISTER ──────────────────────────────────────────────────────────────
     async function submitRegister(e) {
       e.preventDefault();
       hideError();
@@ -379,16 +411,12 @@
 
       setLoading('btn-register', true);
       try {
-        const res = await fetch(`${SERVER_URL}/auth/register`, {
+        const res  = await fetch(`${SERVER_URL}/auth/register`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ name, email, password }),
         });
-
-        if (!res.ok) {
-          throw new Error(`Server returned ${res.status}`);
-        }
-
+        if (!res.ok) throw new Error(`Server ${res.status}`);
         const data = await res.json();
 
         if (!data.success) {
@@ -397,15 +425,15 @@
           return;
         }
 
-        localStorage.setItem('authToken', data.token);
-        localStorage.setItem('authUser', JSON.stringify(data.user));
+        saveSession(data.token, data.user);
+        track('REGISTER', 'Created new account');
 
         const redirect = new URLSearchParams(window.location.search).get('redirect') || 'dashboard.html';
         window.location.href = redirect;
 
-      } catch (error) {
-        console.error('Register error:', error);
-        showError('Could not reach the server. Please try again.');
+      } catch (err) {
+        console.error('Register error:', err);
+        showError('Could not reach the server. Please check your connection.');
         setLoading('btn-register', false);
       }
     }

@@ -674,6 +674,20 @@
     // ── SERVER URL ─────────────────────────────────────────────────────────────
     const SERVER_URL = 'https://harmonious-flow-production-0060.up.railway.app';
 
+    // ── ACTIVITY TRACKER ───────────────────────────────────────────────────────
+    function track(action, detail = '') {
+      const token = localStorage.getItem('authToken');
+      fetch(`${SERVER_URL}/activity`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ action, detail }),
+      }).catch(() => {});
+    }
+    track('PAGE_VIEW', 'profile.html');
+
     // ── THEME ──────────────────────────────────────────────────────────────────
     const themeBtn = document.getElementById('theme-toggle');
     if (localStorage.getItem('theme') === 'dark') {

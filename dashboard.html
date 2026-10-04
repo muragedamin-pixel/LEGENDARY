@@ -167,6 +167,22 @@
   <div class="toast" id="toast"></div>
 
   <script>
+    const SERVER_URL = 'https://harmonious-flow-production-0060.up.railway.app';
+
+    // ── ACTIVITY TRACKER ───────────────────────────────────────────────────────
+    function track(action, detail = '') {
+      const token = localStorage.getItem('authToken');
+      fetch(`${SERVER_URL}/activity`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ action, detail }),
+      }).catch(() => {});
+    }
+    track('PAGE_VIEW', 'dashboard.html');
+
     function escapeHtml(value) {
       return String(value ?? '')
         .replace(/&/g, '&amp;')
