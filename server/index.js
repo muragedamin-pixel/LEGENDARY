@@ -18,9 +18,18 @@ let   activitySeq  = 1;
 
 // ── Middleware ────────────────────────────────────────────────────────────────
 app.use(express.json());
+
+const FRONTEND_URL = process.env.FRONTEND_URL || '*';
 app.use(cors({
-  origin: process.env.FRONTEND_URL || '*',
+  origin: FRONTEND_URL === '*' ? '*' : (origin, cb) => {
+    // Allow requests with no origin (mobile apps, curl, Postman)
+    if (!origin) return cb(null, true);
+    const allowed = FRONTEND_URL.split(',').map(u => u.trim());
+    if (allowed.includes(origin)) return cb(null, true);
+    cb(new Error(`CORS: origin ${origin} not allowed`));
+  },
   methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
