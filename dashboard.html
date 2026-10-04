@@ -85,20 +85,26 @@
   </style>
 </head>
 <body>
+  <!-- NAV -->
   <nav>
-    <div class="nav-logo">EMPRESS</div>
+    <div class="brand-block">
+      <img class="nav-brand-img" src="https://i.pinimg.com/1200x/3a/bc/de/3abcde0931ba1348f88f9f077495a2fd.jpg" alt="EMPRESS logo" />
+      <div class="nav-logo" style="font-family:'Bebas Neue';">EMPRESS</div>
+    </div>
     <ul class="nav-links" id="nav-links">
       <li><a href="index.html#categories">Shop</a></li>
       <li><a href="index.html#collection">Collection</a></li>
       <li><a href="index.html#about">About</a></li>
+      <li><a href="profile.html">Profile</a></li>
     </ul>
     <div class="nav-actions">
-      <a href="index.html" class="btn-primary" style="font-size:.8rem;padding:.65rem 1.5rem">← Back to Store</a>
+      <a href="index.html" class="btn-primary" style="font-size:.8rem;padding:.65rem 1.5rem">← Store</a>
       <div class="nav-auth" id="nav-auth"></div>
-      <button class="theme-toggle" id="theme-toggle" title="Toggle dark/light mode" aria-label="Toggle dark/light mode" aria-pressed="false">🌙</button>
+      <button class="theme-toggle" id="theme-toggle" title="Toggle dark/light mode" aria-label="Toggle theme">🌙</button>
     </div>
-    <div class="hamburger" id="hamburger">&#9776;</div>
+    <div class="hamburger" id="hamburger" aria-label="Menu">&#9776;</div>
   </nav>
+  <script src="nav.js"></script>
 
   <div class="dash-wrap">
     <div class="dash-hero">
@@ -210,29 +216,6 @@
         // Ignore storage quota or restricted mode issues.
       }
     }
-
-    const themeBtn = document.getElementById('theme-toggle');
-    function applyTheme(isDark) {
-      document.body.classList.toggle('dark', isDark);
-      if (!themeBtn) return;
-      themeBtn.textContent = isDark ? '☀️' : '🌙';
-      themeBtn.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
-      themeBtn.setAttribute('aria-pressed', String(isDark));
-    }
-    if (themeBtn) {
-      const savedTheme = localStorage.getItem('theme');
-      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-      applyTheme(savedTheme ? savedTheme === 'dark' : prefersDark);
-      themeBtn.addEventListener('click', () => {
-        const nextDark = !document.body.classList.contains('dark');
-        applyTheme(nextDark);
-        safeStorageSet('theme', nextDark ? 'dark' : 'light');
-      });
-    }
-
-    document.getElementById('hamburger').addEventListener('click', () => {
-      document.getElementById('nav-links').classList.toggle('open');
-    });
 
     function showToast(msg) {
       const t = document.getElementById('toast');
@@ -427,54 +410,10 @@
     loadProfile();
     renderListings();
     updateStats();
-    initNavAuth();
 
-    function initNavAuth() {
-      const container = document.getElementById('nav-auth');
-      if (!container) return;
-
-      const user = safeStorageGet('authUser', null);
-      if (!user) {
-        container.innerHTML = `<a class="nav-profile-btn" href="login.html?redirect=dashboard.html" title="Sign in">👤</a>`;
-        return;
-      }
-
-      const p = safeStorageGet('sellerProfile', {});
-      const avatarSrc = p.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(String(user.name || 'User'))}&background=e8a0b0&color=fff&size=36&bold=true`;
-      const firstName = String(user.name || 'User').split(' ')[0];
-
-      container.innerHTML = `
-        <button class="nav-avatar-btn" id="nav-user-btn" onclick="toggleAuthDropdown()" title="${escapeHtml(user.name || 'User')}">
-          <img class="nav-avatar-img" src="${escapeHtml(avatarSrc)}" alt="${escapeHtml(firstName)}" />
-          <span class="nav-avatar-name">${escapeHtml(firstName)}</span>
-          <span class="nav-avatar-caret">▾</span>
-        </button>
-        <div class="nav-dropdown" id="nav-dropdown">
-          <a href="profile.html">👤 My Profile</a>
-          <a href="index.html">🏪 Back to Store</a>
-          <div class="dropdown-divider"></div>
-          <button class="dropdown-logout" onclick="logOut()">Sign Out</button>
-        </div>
-      `;
-
-      document.addEventListener('click', (e) => {
-        const dropdown = document.getElementById('nav-dropdown');
-        const btn = document.getElementById('nav-user-btn');
-        if (dropdown && !dropdown.contains(e.target) && btn && !btn.contains(e.target)) {
-          dropdown.classList.remove('open');
-        }
-      });
-    }
-
-    function toggleAuthDropdown() {
-      document.getElementById('nav-dropdown')?.classList.toggle('open');
-    }
-
-    function logOut() {
-      localStorage.removeItem('authToken');
-      localStorage.removeItem('authUser');
-      window.location.href = 'index.html';
-    }
+    // nav handled by nav.js
+    function toggleAuthDropdown() { window.__empressNavToggleDrop && window.__empressNavToggleDrop(); }
+    function logOut() { window.__empressLogout && window.__empressLogout(); }
   </script>
 </body>
 </html>

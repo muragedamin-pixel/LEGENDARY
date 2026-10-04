@@ -17,26 +17,6 @@ function safeImageUrl(value) {
   return /^(https?:|data:image\/|\/|\.\/|\.\.\/)/i.test(url) ? url : '';
 }
 
-// ── THEME TOGGLE ─────────────────────────────────────────────────────────────
-const themeBtn = document.getElementById('theme-toggle');
-function applyTheme(dark) {
-  document.body.classList.toggle('dark', dark);
-  if (!themeBtn) return;
-  themeBtn.textContent = dark ? '☀️' : '🌙';
-  themeBtn.setAttribute('aria-pressed', String(dark));
-  themeBtn.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
-}
-if (themeBtn) {
-  const savedTheme = localStorage.getItem('theme');
-  const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
-  applyTheme(savedTheme ? savedTheme === 'dark' : Boolean(prefersDark));
-  themeBtn.addEventListener('click', () => {
-    const dark = !document.body.classList.contains('dark');
-    applyTheme(dark);
-    localStorage.setItem('theme', dark ? 'dark' : 'light');
-  });
-}
-
 // ── SELLER LISTINGS ──────────────────────────────────────────────────────────
 const productGrid = document.getElementById('products');
 const categoryLabels = { bags: 'Handbag', shoes: 'Shoes', clothing: 'Clothing' };
@@ -70,9 +50,6 @@ if (slides.length > 1) setInterval(() => {
 }, 5000);
 
 // ── NAVIGATION AND FILTERS ───────────────────────────────────────────────────
-const hamburger = document.getElementById('hamburger');
-const navLinks = document.getElementById('nav-links');
-hamburger?.addEventListener('click', () => navLinks?.classList.toggle('open'));
 const tabs = [...document.querySelectorAll('.tab')];
 const products = [...document.querySelectorAll('.product-card')];
 const collection = document.getElementById('collection');
@@ -193,33 +170,11 @@ function submitRating() { if (!selectedRating) return alert('Please select a sta
 
 document.getElementById('newsletter-form')?.addEventListener('submit', event => { event.preventDefault(); event.target.style.display = 'none'; const message = document.getElementById('newsletter-msg'); if (message) { message.textContent = "🎉 You're on the list! Welcome to the EMPRESS family."; message.style.fontSize = '1.1rem'; } });
 
-// ── NAV AUTH ─────────────────────────────────────────────────────────────────
-(function initNavAuth() {
-  const container = document.getElementById('nav-auth');
-  if (!container) return;
-  const user = readStorage('authUser', null);
-  if (!user) { container.innerHTML = '<a class="nav-profile-btn" href="login.html?redirect=profile.html" title="Sign in to your account">👤</a>'; return; }
-  const profile = readStorage('sellerProfile', {});
-  const name = String(user.name || 'User');
-  const firstName = name.split(' ')[0];
-  const avatar = safeImageUrl(profile?.avatar) || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=e8a0b0&color=fff&size=36&bold=true`;
-  container.innerHTML = `<button class="nav-avatar-btn" id="nav-user-btn" onclick="toggleAuthDropdown()" title="${escapeHtml(name)}"><img class="nav-avatar-img" src="${avatar}" alt="${escapeHtml(firstName)}"><span class="nav-avatar-name">${escapeHtml(firstName)}</span><span class="nav-avatar-caret">▾</span></button><div class="nav-dropdown" id="nav-dropdown"><a href="profile.html">👤 My Profile</a><a href="dashboard.html">🛍 My Dashboard</a><div class="dropdown-divider"></div><button class="dropdown-logout" onclick="logOut()">Sign Out</button></div>`;
-  document.addEventListener('click', event => { const dropdown = document.getElementById('nav-dropdown'); const button = document.getElementById('nav-user-btn'); if (dropdown && button && !dropdown.contains(event.target) && !button.contains(event.target)) dropdown.classList.remove('open'); });
-})();
-function toggleAuthDropdown() { document.getElementById('nav-dropdown')?.classList.toggle('open'); }
-function logOut() {
-  const token = localStorage.getItem('authToken');
-  if (token) {
-    fetch(`${SERVER_URL}/auth/logout`, {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${token}` },
-    }).catch(() => {});
-  }
-  track('LOGOUT', 'Signed out from nav');
-  localStorage.removeItem('authToken');
-  localStorage.removeItem('authUser');
-  window.location.reload();
-}
+// ── NAV — handled by nav.js (included in index.html) ─────────────────────────
+// Keep toggleAuthDropdown as alias in case any inline onclick still uses it
+function toggleAuthDropdown() { window.__empressNavToggleDrop && window.__empressNavToggleDrop(); }
+function logOut() { window.__empressLogout && window.__empressLogout(); }
+
 
 if ('IntersectionObserver' in window) {
   const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) { entry.target.style.opacity = '1'; entry.target.style.transform = 'translateY(0)'; } }), { threshold: 0.1 });

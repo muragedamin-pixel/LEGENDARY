@@ -83,16 +83,25 @@
 <body>
 
   <!-- NAV --> 
+  <!-- NAV -->
   <nav>
-    <div class="nav-logo">EMPRESS</div>
+    <div class="brand-block">
+      <img class="nav-brand-img" src="https://i.pinimg.com/1200x/3a/bc/de/3abcde0931ba1348f88f9f077495a2fd.jpg" alt="EMPRESS logo" />
+      <div class="nav-logo" style="font-family:'Bebas Neue';">EMPRESS</div>
+    </div>
     <ul class="nav-links" id="nav-links">
       <li><a href="index.html#categories">Shop</a></li>
       <li><a href="index.html#collection">Collection</a></li>
       <li><a href="index.html#about">About</a></li>
       <li><a href="index.html#contact">Contact</a></li>
     </ul>
-    <div class="hamburger" id="hamburger">&#9776;</div>
+    <div class="nav-actions">
+      <div class="nav-auth" id="nav-auth"></div>
+      <button class="theme-toggle" id="theme-toggle" title="Toggle dark/light mode" aria-label="Toggle theme">🌙</button>
+    </div>
+    <div class="hamburger" id="hamburger" aria-label="Menu">&#9776;</div>
   </nav>
+  <script src="nav.js"></script>
 
   <div class="product-page">
     <a href="index.html" class="back-link">← Back to Collection</a>
@@ -204,11 +213,6 @@
 
     document.getElementById('modal-close').addEventListener('click', () => {
       document.getElementById('modal').classList.remove('open');
-    });
-
-    // Hamburger
-    document.getElementById('hamburger').addEventListener('click', () => {
-      document.getElementById('nav-links').classList.toggle('open');
     });
   </script>
 </body>
