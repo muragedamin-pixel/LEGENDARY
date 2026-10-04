@@ -144,7 +144,7 @@ async function initiateMpesaPayment() {
   const original = button.textContent;
   button.disabled = true; button.textContent = 'Sending…';
   try {
-    const response = await fetch(`${SERVER_URL}/stk-push`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ phone, amount: (document.getElementById('cart-total')?.textContent || '').replace(/[^0-9]/g, ''), itemName: cart.length === 1 ? cart[0].name : 'PRE LOVED Order' }) });
+    const response = await fetch(`${SERVER_URL}/stk-push`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ phone, amount: (document.getElementById('cart-total')?.textContent || '').replace(/[^0-9]/g, ''), itemName: cart.length === 1 ? cart[0].name : 'EMPRESS Order' }) });
     const data = await response.json();
     if (!data.success) throw new Error(data.message || 'Payment failed');
     button.textContent = 'Check your phone…';
@@ -174,7 +174,7 @@ document.querySelectorAll('.star').forEach(star => {
 });
 function submitRating() { if (!selectedRating) return alert('Please select a star rating.'); document.getElementById('rating-thanks')?.style.setProperty('display', 'block'); document.querySelector('#rating-modal .btn-primary')?.style.setProperty('display', 'none'); setTimeout(() => document.getElementById('rating-modal')?.classList.remove('open'), 2000); }
 
-document.getElementById('newsletter-form')?.addEventListener('submit', event => { event.preventDefault(); event.target.style.display = 'none'; const message = document.getElementById('newsletter-msg'); if (message) { message.textContent = "🎉 You're on the list! Welcome to the PRE LOVED family."; message.style.fontSize = '1.1rem'; } });
+document.getElementById('newsletter-form')?.addEventListener('submit', event => { event.preventDefault(); event.target.style.display = 'none'; const message = document.getElementById('newsletter-msg'); if (message) { message.textContent = "🎉 You're on the list! Welcome to the EMPRESS family."; message.style.fontSize = '1.1rem'; } });
 
 // ── NAV AUTH ─────────────────────────────────────────────────────────────────
 (function initNavAuth() {

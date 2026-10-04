@@ -1,7 +1,7 @@
 {
-  "name": "prelovedstore-server",
+  "name": "empress-server",
   "version": "1.0.0",
-  "description": "PRE LOVED Store — M-Pesa Daraja API backend",
+  "description": "EMPRESS Store — M-Pesa Daraja API backend",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",

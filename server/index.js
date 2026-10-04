@@ -22,7 +22,7 @@ app.use(cors({
 
 // ── Auth helpers ─────────────────────────────────────────────────────────────
 
-const JWT_SECRET = process.env.JWT_SECRET || 'prelovedstore_jwt_secret_change_in_production';
+const JWT_SECRET = process.env.JWT_SECRET || 'empress_jwt_secret_change_in_production';
 const JWT_EXPIRES = '7d';
 
 function signToken(payload) {
@@ -147,7 +147,7 @@ function formatPhone(phone) {
 
 // Health check
 app.get('/', (_req, res) => {
-  res.json({ status: 'PRE LOVED server is running 🎉' });
+  res.json({ status: 'EMPRESS server is running 🎉' });
 });
 
 /**
@@ -190,7 +190,7 @@ app.post('/stk-push', async (req, res) => {
       PhoneNumber: formattedPhone,
       CallBackURL: callbackUrl,
       AccountReference: itemName.slice(0, 12),
-      TransactionDesc: `PRE LOVED - ${itemName}`.slice(0, 13),
+      TransactionDesc: `EMPRESS - ${itemName}`.slice(0, 13),
     };
 
     const stkRes = await axios.post(
@@ -281,6 +281,6 @@ app.get('/status/:checkoutRequestId', (req, res) => {
 
 // ── Start ────────────────────────────────────────────────────────────────────
 app.listen(PORT, () => {
-  console.log(`PRE LOVED server running on port ${PORT}`);
+  console.log(`EMPRESS server running on port ${PORT}`);
   console.log(`Environment: ${process.env.MPESA_ENV || 'sandbox'}`);
 });
