@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Explore Collection — EMPRESS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@400;600;700&family=Cinzel:wght@700;900&family=Josefin+Sans:wght@700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── PAGE HERO ── */
+    .sellers-hero {
+      background: linear-gradient(135deg, #5A0010 0%, #F4C2C2 100%);
+      text-align: center;
+      padding: 5rem 5% 4rem;
+      color: #fff;
+    }
+    .sellers-hero p {
+      font-size: .85rem;
+      font-weight: 700;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.7);
+      margin-bottom: .75rem;
+    }
+    .sellers-hero h1 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+    .sellers-hero h1 span {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: #f5c2cc;
+    }
+    .sellers-hero .sub {
+      font-size: 1rem;
+      color: rgba(255,255,255,.8);
+      max-width: 480px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+      letter-spacing: normal;
+      font-weight: 400;
+    }
+
+    /* ── SEARCH + FILTER BAR ── */
+    .collection-controls {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 1.25rem 5%;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 72px;
+      z-index: 50;
+    }
+    .search-box {
+      flex: 1 1 220px;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      border: 1.5px solid var(--border);
+      border-radius: 30px;
+      padding: .55rem 1.1rem;
+      background: var(--blush);
+      transition: border-color .2s;
+    }
+    .search-box:focus-within { border-color: var(--rose-dark); }
+    .search-box input {
+      border: none;
+      background: none;
+      outline: none;
+      font-family: 'Lato', sans-serif;
+      font-size: .9rem;
+      color: var(--text);
+      width: 100%;
+    }
+    .search-box span { color: var(--text-muted); font-size: 1rem; }
+    .cat-filters { display: flex; gap: .5rem; flex-wrap: wrap; }
+    .cat-filter-btn {
+      padding: .5rem 1.2rem;
+      border-radius: 20px;
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      font-family: 'Lato', sans-serif;
+      font-size: .8rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .cat-filter-btn.active,
+    .cat-filter-btn:hover {
+      background: var(--rose-dark);
+      border-color: var(--rose-dark);
+      color: #fff;
+    }
+    .results-count {
+      margin-left: auto;
+      font-size: .8rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    /* ── MAIN LAYOUT ── */
+    .sellers-page {
+      padding: 3rem 5%;
+      background: linear-gradient(135deg, var(--bg) 0%, var(--bg-soft) 100%);
+      min-height: 60vh;
+    }
+
+    /* ── SELLER SECTION ── */
+    .seller-section {
+      margin-bottom: 4rem;
+      background: var(--card);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1.5px solid var(--border);
+      box-shadow: 0 4px 20px rgba(90,0,16,.07);
+    }
+    .seller-header {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      padding: 1.5rem 2rem;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .seller-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2.5px solid var(--rose);
+      flex-shrink: 0;
+      background: var(--blush);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      overflow: hidden;
+    }
+    .seller-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    .seller-info { flex: 1 1 180px; }
+    .seller-info h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      color: var(--text);
+      margin-bottom: .2rem;
+    }
+    .seller-info .seller-meta {
+      font-size: .8rem;
+      color: var(--text-muted);
+      display: flex;
+      gap: .75rem;
+      flex-wrap: wrap;
+      margin-bottom: .4rem;
+    }
+    .seller-info .seller-bio {
+      font-size: .85rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .seller-info .seller-city {
+      font-size: .78rem;
+      color: var(--tan);
+      font-weight: 700;
+      letter-spacing: .08em;
+    }
+    .seller-items-count {
+      background: var(--blush);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: .5rem 1.1rem;
+      font-size: .78rem;
+      font-weight: 700;
+      color: var(--rose-dark);
+      letter-spacing: .08em;
+      white-space: nowrap;
+    }
+
+    /* ── ITEMS GRID ── */
+    .seller-items {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.25rem;
+      padding: 1.5rem 2rem;
+      background: var(--card);
+    }
+    .item-card {
+      background: var(--white);
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1.5px solid var(--border);
+      cursor: pointer;
+      transition: transform .25s, box-shadow .25s;
+      position: relative;
+    }
+    .item-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 28px rgba(196,96,122,.14);
+    }
+    .item-img {
+      height: 220px;
+      background: var(--tan-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .item-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .4s;
+    }
+    .item-card:hover .item-img img { transform: scale(1.05); }
+    .item-img .item-emoji { font-size: 4rem; }
+    .item-img .item-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(196,96,122,.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity .2s;
+    }
+    .item-img:hover .item-overlay { opacity: 1; }
+    .item-enquire-btn {
+      background: #fff;
+      color: var(--rose-dark);
+      border: none;
+      padding: .6rem 1.3rem;
+      font-weight: 700;
+      cursor: pointer;
+      border-radius: 20px;
+      font-size: .82rem;
+    }
+    .item-cat-tag {
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      color: var(--tan);
+      text-transform: uppercase;
+      padding: .85rem 1rem .2rem;
+      display: block;
+    }
+    .item-card h4 {
+      font-size: .95rem;
+      padding: 0 1rem .4rem;
+      color: var(--text);
+    }
+    .item-card .item-price {
+      display: block;
+      font-size: 1.05rem;
+      color: var(--rose-dark);
+      padding: 0 1rem;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+    }
+    .item-card .item-condition {
+      font-size: .72rem;
+      color: var(--text-muted);
+      padding: .3rem 1rem .9rem;
+      display: block;
+    }
+    .item-badge {
+      position: absolute;
+      top: .75rem;
+      left: .75rem;
+      background: var(--rose);
+      color: #fff;
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      padding: .2rem .6rem;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+
+    /* ── ENQUIRY MODAL ── */
+    .enquiry-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.45);
+      z-index: 500;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .enquiry-modal.open { display: flex; }
+    .enquiry-box {
+      background: var(--white);
+      border-radius: 20px;
+      width: 460px;
+      max-width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(90,0,16,.18);
+      border: 1px solid var(--border);
+    }
+    .enquiry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.4rem 1.5rem 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .enquiry-header h3 {
+      color: var(--rose-dark);
+      font-size: 1.05rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-family: 'Lato', sans-serif;
+      font-weight: 700;
+    }
+    .enquiry-close {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+    .enquiry-item-preview {
+      display: flex;
+      gap: 1rem;
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--blush);
+    }
+    .enquiry-item-preview img,
+    .enquiry-item-preview .preview-emoji {
+      width: 72px;
+      height: 72px;
+      border-radius: 10px;
+      object-fit: cover;
+      flex-shrink: 0;
+      font-size: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--tan-light);
+    }
+    .enquiry-item-info h4 { font-size: 1rem; color: var(--text); margin-bottom: .25rem; }
+    .enquiry-item-info .price { font-size: 1.05rem; color: var(--rose-dark); font-family: 'Playfair Display', serif; font-weight: 700; }
+    .enquiry-item-info .cond { font-size: .78rem; color: var(--text-muted); }
+    .enquiry-body { padding: 1.25rem 1.5rem; }
+    .enquiry-row {
+      display: flex;
+      align-items: flex-start;
+      gap: .75rem;
+      margin-bottom: 1rem;
+      font-size: .88rem;
+      color: var(--text);
+    }
+    .enquiry-row .erow-label {
+      font-weight: 700;
+      color: var(--text-muted);
+      font-size: .75rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      min-width: 80px;
+      padding-top: .1rem;
+    }
+    .enquiry-row .erow-val { color: var(--text); line-height: 1.6; }
+    .enquiry-contact-btns { display: flex; gap: .75rem; flex-wrap: wrap; margin-top: 1.5rem; }
+    .whatsapp-btn {
+      background: #25D366;
+      color: #fff;
+      border: none;
+      padding: .8rem 1.5rem;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: .85rem;
+      cursor: pointer;
+      letter-spacing: .06em;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      transition: background .2s;
+    }
+    .whatsapp-btn:hover { background: #1ebe5d; }
+    .call-btn {
+      background: var(--rose-dark);
+      color: #fff;
+      border: none;
+      padding: .8rem 1.5rem;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: .85rem;
+      cursor: pointer;
+      letter-spacing: .06em;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      transition: background .2s;
+    }
+    .call-btn:hover { background: #a84060; }
+
+    /* ── EMPTY / LOADING STATES ── */
+    .empty-state {
+      text-align: center;
+      padding: 5rem 2rem;
+      color: var(--text-muted);
+    }
+    .empty-state .empty-icon { font-size: 4rem; margin-bottom: 1rem; }
+    .empty-state h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      color: var(--text);
+      margin-bottom: .5rem;
+    }
+    .empty-state p { font-size: .9rem; line-height: 1.7; margin-bottom: 1.5rem; }
+    .skeleton-pulse {
+      background: linear-gradient(90deg, var(--blush) 25%, var(--border) 50%, var(--blush) 75%);
+      background-size: 200% 100%;
+      animation: skeleton 1.4s ease infinite;
+      border-radius: 10px;
+    }
+    @keyframes skeleton {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    .skeleton-section {
+      margin-bottom: 4rem;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1.5px solid var(--border);
+    }
+    .skeleton-header { height: 100px; }
+    .skeleton-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.25rem;
+      padding: 1.5rem 2rem;
+      background: var(--card);
+    }
+    .skeleton-card { height: 300px; border-radius: 14px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .sellers-hero { padding: 4rem 5% 3rem; }
+      .collection-controls { top: 64px; padding: 1rem 4%; }
+      .sellers-page { padding: 2rem 4%; }
+      .seller-header { padding: 1.2rem 1.25rem; }
+      .seller-items { padding: 1.25rem; gap: 1rem; }
+      .seller-items { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+      .item-img { height: 180px; }
+    }
+    @media (max-width: 480px) {
+      .seller-items { grid-template-columns: 1fr 1fr; gap: .75rem; }
+      .seller-header { gap: .85rem; }
+      .seller-avatar { width: 52px; height: 52px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="brand-block">
+    <a href="index.html">
+      <img src="images/logo.png" alt="EMPRESS" class="nav-brand-img" onerror="this.style.display='none'" />
+    </a>
+    <a href="index.html" class="nav-logo">EMPRESS</a>
+  </div>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html#categories">Shop</a></li>
+    <li><a href="sellers.html">Collection</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+    <li><a href="dashboard.html">Sell ✦</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+    <div class="nav-auth" id="nav-auth"></div>
+    <span class="hamburger" id="hamburger">☰</span>
+  </div>
+</nav>
+<script src="nav.js"></script>
+
+<!-- ── HERO ── -->
+<section class="sellers-hero">
+  <p>✦ Marketplace ✦</p>
+  <h1>Explore the <span>Collection</span></h1>
+  <p class="sub">Discover unique pieces from every seller on EMPRESS — handbags, shoes & clothing curated just for you.</p>
+</section>
+
+<!-- ── CONTROLS ── -->
+<div class="collection-controls">
+  <div class="search-box">
+    <span>🔍</span>
+    <input type="text" id="search-input" placeholder="Search items or sellers…" autocomplete="off" />
+  </div>
+  <div class="cat-filters">
+    <button class="cat-filter-btn active" data-cat="all">All</button>
+    <button class="cat-filter-btn" data-cat="bags">👜 Bags</button>
+    <button class="cat-filter-btn" data-cat="shoes">👠 Shoes</button>
+    <button class="cat-filter-btn" data-cat="clothing">👗 Clothing</button>
+  </div>
+  <span class="results-count" id="results-count"></span>
+</div>
+
+<!-- ── SELLERS + ITEMS ── -->
+<main class="sellers-page" id="sellers-page">
+  <!-- skeleton loading state -->
+  <div id="skeleton-loader">
+    <div class="skeleton-section">
+      <div class="skeleton-header skeleton-pulse"></div>
+      <div class="skeleton-grid">
+        <div class="skeleton-card skeleton-pulse"></div>
+        <div class="skeleton-card skeleton-pulse"></div>
+        <div class="skeleton-card skeleton-pulse"></div>
+        <div class="skeleton-card skeleton-pulse"></div>
+      </div>
+    </div>
+    <div class="skeleton-section">
+      <div class="skeleton-header skeleton-pulse"></div>
+      <div class="skeleton-grid">
+        <div class="skeleton-card skeleton-pulse"></div>
+        <div class="skeleton-card skeleton-pulse"></div>
+        <div class="skeleton-card skeleton-pulse"></div>
+      </div>
+    </div>
+  </div>
+  <div id="sellers-container" style="display:none"></div>
+</main>
+
+<!-- ── ENQUIRY MODAL ── -->
+<div class="enquiry-modal" id="enquiry-modal">
+  <div class="enquiry-box">
+    <div class="enquiry-header">
+      <h3>Enquire About This Item</h3>
+      <button class="enquiry-close" onclick="closeEnquiry()">✕</button>
+    </div>
+    <div class="enquiry-item-preview" id="enquiry-preview"></div>
+    <div class="enquiry-body" id="enquiry-body"></div>
+  </div>
+</div>
+
+<script>
+  const SERVER_URL = 'https://harmonious-flow-production-0060.up.railway.app';
+
+  const CAT_LABELS = { bags: 'Handbag', shoes: 'Shoes', clothing: 'Clothing' };
+  const CAT_ICONS  = { bags: '👜', shoes: '👠', clothing: '👗' };
+
+  let allSellers  = [];
+  let allListings = [];
+  let activeFilter = 'all';
+  let searchQuery  = '';
+
+  function esc(s) {
+    return String(s || '')
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+  }
+  function safeImg(url) {
+    const u = String(url || '').trim();
+    return /^(https?:|data:image\/|\/|\.\/)/i.test(u) ? u : '';
+  }
+
+  // ── FETCH DATA ──────────────────────────────────────────────────────────────
+  async function loadData() {
+    try {
+      const [sRes, lRes] = await Promise.all([
+        fetch(`${SERVER_URL}/listings/sellers`),
+        fetch(`${SERVER_URL}/listings`),
+      ]);
+      const sData = await sRes.json();
+      const lData = await lRes.json();
+      allSellers  = sData.sellers  || [];
+      allListings = lData.listings || [];
+    } catch (e) {
+      console.error('Failed to load listings', e);
+      allSellers  = [];
+      allListings = [];
+    }
+    document.getElementById('skeleton-loader').style.display = 'none';
+    document.getElementById('sellers-container').style.display = 'block';
+    render();
+  }
+
+  // ── RENDER ──────────────────────────────────────────────────────────────────
+  function render() {
+    const container = document.getElementById('sellers-container');
+    const q = searchQuery.toLowerCase();
+
+    // filter listings by category + search
+    const filteredListings = allListings.filter(item => {
+      const matchCat = activeFilter === 'all' || item.cat === activeFilter;
+      const matchQ   = !q || item.name.toLowerCase().includes(q)
+                            || (item.description || '').toLowerCase().includes(q)
+                            || (item.sellerDisplay || item.sellerName || '').toLowerCase().includes(q);
+      return matchCat && matchQ;
+    });
+
+    // which sellers have visible items
+    const visibleEmails = new Set(filteredListings.map(l => l.sellerEmail));
+    const visibleSellers = allSellers.filter(s => visibleEmails.has(s.email));
+
+    // update count
+    document.getElementById('results-count').textContent =
+      `${filteredListings.length} item${filteredListings.length !== 1 ? 's' : ''} · ${visibleSellers.length} seller${visibleSellers.length !== 1 ? 's' : ''}`;
+
+    if (visibleSellers.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-icon">🛍</div>
+          <h3>No items found</h3>
+          <p>${allListings.length === 0
+            ? 'No one has listed an item yet. Be the first seller!'
+            : 'Try a different search or filter.'}</p>
+          <a href="dashboard.html" class="btn-primary" style="display:inline-block;text-decoration:none">List an Item ✦</a>
+        </div>`;
+      return;
+    }
+
+    container.innerHTML = visibleSellers.map(seller => {
+      const items = filteredListings.filter(l => l.sellerEmail === seller.email);
+      const avatarSrc = safeImg(seller.avatar);
+      const avatarHtml = avatarSrc
+        ? `<div class="seller-avatar"><img src="${esc(avatarSrc)}" alt="${esc(seller.name)}" onerror="this.parentNode.innerHTML='👤'" /></div>`
+        : `<div class="seller-avatar">👤</div>`;
+
+      const itemsHtml = items.map(item => {
+        const imgSrc = safeImg(item.img);
+        const imgHtml = imgSrc
+          ? `<img src="${esc(imgSrc)}" alt="${esc(item.name)}" loading="lazy" onerror="this.parentNode.innerHTML='<span class=item-emoji>${CAT_ICONS[item.cat]||'🛍'}</span>'" />`
+          : `<span class="item-emoji">${CAT_ICONS[item.cat] || '🛍'}</span>`;
+        return `
+          <div class="item-card" onclick="openEnquiry(${item.id})">
+            ${item.negotiable ? '<span class="item-badge">Negotiable</span>' : ''}
+            <div class="item-img">
+              ${imgHtml}
+              <div class="item-overlay">
+                <button class="item-enquire-btn" onclick="event.stopPropagation();openEnquiry(${item.id})">Enquire</button>
+              </div>
+            </div>
+            <span class="item-cat-tag">${esc(CAT_LABELS[item.cat] || item.cat)}</span>
+            <h4>${esc(item.name)}</h4>
+            <strong class="item-price">${esc(item.priceLabel)}</strong>
+            <span class="item-condition">${esc(item.condition)}</span>
+          </div>`;
+      }).join('');
+
+      return `
+        <div class="seller-section" data-seller="${esc(seller.email)}">
+          <div class="seller-header">
+            ${avatarHtml}
+            <div class="seller-info">
+              <h2>${esc(seller.name)}</h2>
+              <div class="seller-meta">
+                ${seller.city ? `<span class="seller-city">📍 ${esc(seller.city)}</span>` : ''}
+                <span>${seller.itemCount} item${seller.itemCount !== 1 ? 's' : ''} listed</span>
+              </div>
+              ${seller.bio ? `<p class="seller-bio">${esc(seller.bio)}</p>` : ''}
+            </div>
+            <span class="seller-items-count">${items.length} item${items.length !== 1 ? 's' : ''}</span>
+          </div>
+          <div class="seller-items">${itemsHtml}</div>
+        </div>`;
+    }).join('');
+  }
+
+  // ── ENQUIRY MODAL ────────────────────────────────────────────────────────────
+  function openEnquiry(id) {
+    const item = allListings.find(l => l.id === id);
+    if (!item) return;
+
+    const imgSrc = safeImg(item.img);
+    const imgHtml = imgSrc
+      ? `<img src="${esc(imgSrc)}" alt="${esc(item.name)}" style="width:72px;height:72px;object-fit:cover;border-radius:10px;flex-shrink:0" onerror="this.outerHTML='<div class=preview-emoji>${CAT_ICONS[item.cat]||'🛍'}</div>'" />`
+      : `<div class="preview-emoji" style="font-size:2.5rem;width:72px;height:72px;display:flex;align-items:center;justify-content:center;background:var(--tan-light);border-radius:10px;flex-shrink:0">${CAT_ICONS[item.cat]||'🛍'}</div>`;
+
+    document.getElementById('enquiry-preview').innerHTML = `
+      ${imgHtml}
+      <div class="enquiry-item-info">
+        <h4>${esc(item.name)}</h4>
+        <div class="price">${esc(item.priceLabel)}</div>
+        <div class="cond">${esc(item.condition)}${item.negotiable ? ' · Negotiable' : ''}</div>
+      </div>`;
+
+    const phone = esc(item.contact || '');
+    const waMsg = encodeURIComponent(`Hi! I found your listing on EMPRESS — I'm interested in the ${item.name} (${item.priceLabel}). Is it still available?`);
+    const showWa = item.contactMethod !== 'Phone Call' && phone;
+    const showCall = item.contactMethod !== 'WhatsApp' && phone;
+
+    document.getElementById('enquiry-body').innerHTML = `
+      ${item.description ? `<div class="enquiry-row"><span class="erow-label">About</span><span class="erow-val">${esc(item.description)}</span></div>` : ''}
+      ${item.brand ? `<div class="enquiry-row"><span class="erow-label">Brand</span><span class="erow-val">${esc(item.brand)}</span></div>` : ''}
+      ${item.colour ? `<div class="enquiry-row"><span class="erow-label">Colour</span><span class="erow-val">${esc(item.colour)}</span></div>` : ''}
+      ${item.size ? `<div class="enquiry-row"><span class="erow-label">Size</span><span class="erow-val">${esc(item.size)}</span></div>` : ''}
+      ${item.delivery ? `<div class="enquiry-row"><span class="erow-label">Delivery</span><span class="erow-val">${esc(item.delivery)}</span></div>` : ''}
+      ${item.location ? `<div class="enquiry-row"><span class="erow-label">Location</span><span class="erow-val">${esc(item.location)}</span></div>` : ''}
+      <div class="enquiry-row"><span class="erow-label">Seller</span><span class="erow-val">${esc(item.sellerDisplay || item.sellerName)}</span></div>
+      ${phone ? `<div class="enquiry-contact-btns">
+        ${showWa ? `<a class="whatsapp-btn" href="https://wa.me/${phone.replace(/[^0-9]/g,'')}?text=${waMsg}" target="_blank" rel="noopener">💬 WhatsApp</a>` : ''}
+        ${showCall ? `<a class="call-btn" href="tel:${phone}">📞 Call Seller</a>` : ''}
+      </div>` : '<p style="color:var(--text-muted);font-size:.85rem;margin-top:1rem">Contact info not provided. Try messaging via WhatsApp if available.</p>'}`;
+
+    document.getElementById('enquiry-modal').classList.add('open');
+  }
+
+  function closeEnquiry() {
+    document.getElementById('enquiry-modal').classList.remove('open');
+  }
+  document.getElementById('enquiry-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeEnquiry();
+  });
+
+  // ── FILTERS ──────────────────────────────────────────────────────────────────
+  document.querySelectorAll('.cat-filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeFilter = btn.dataset.cat;
+      document.querySelectorAll('.cat-filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      render();
+    });
+  });
+
+  let searchTimer;
+  document.getElementById('search-input').addEventListener('input', function() {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => { searchQuery = this.value; render(); }, 280);
+  });
+
+  // ── INIT ──────────────────────────────────────────────────────────────────────
+  loadData();
+</script>
+
+</body>
+</html>

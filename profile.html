@@ -906,7 +906,7 @@
     }
 
     // ── LIST MARKET ITEM ───────────────────────────────────────────────────────
-    function listMarketItem() {
+    async function listMarketItem() {
       const name      = document.getElementById('mi-name').value.trim();
       const cat       = document.getElementById('mi-cat').value;
       const condition = document.getElementById('mi-condition').value;
@@ -915,7 +915,7 @@
       const size      = document.getElementById('mi-size').value.trim();
       const desc      = document.getElementById('mi-desc').value.trim();
       const priceRaw  = document.getElementById('mi-price').value.trim();
-      const nego      = document.getElementById('mi-negotiable').value;
+      const nego      = document.getElementById('mi-negotiable').value === 'yes';
       const delivery  = document.getElementById('mi-delivery').value;
       const location  = document.getElementById('mi-location').value.trim();
       const phone     = document.getElementById('mi-contact-phone').value.trim();
@@ -939,46 +939,82 @@
         return;
       }
 
-      const price = parseInt(priceRaw, 10);
-      const listing = {
-        id:         Date.now(),
+      const token = localStorage.getItem('authToken');
+      if (!token) {
+        errEl.textContent = 'You must be logged in to list an item.';
+        errEl.style.display = 'block';
+        return;
+      }
+
+      const price    = parseInt(priceRaw, 10);
+      const profile  = JSON.parse(localStorage.getItem('sellerProfile') || '{}');
+      const authUser = JSON.parse(localStorage.getItem('authUser') || '{}');
+
+      const payload = {
         name,
         cat,
         condition,
         brand,
         colour,
         size,
-        desc,
+        description: desc,
         price,
-        priceLabel: 'Ksh ' + price.toLocaleString(),
-        negotiable: nego,
+        priceLabel:    'Ksh ' + price.toLocaleString(),
+        negotiable:    nego,
         delivery,
         location,
-        contactPhone:  phone,
+        contact:       phone,
         contactMethod: contactM,
-        img:        photoData.find(d => d !== null),
-        photos:     photoData.filter(d => d !== null),
-        createdAt:  new Date().toISOString(),
-        status:     'live',
-        sellerEmail: (JSON.parse(localStorage.getItem('authUser') || '{}').email || '').toLowerCase(),
+        img:           photoData.find(d => d !== null) || '',
+        // seller profile info attached so sellers.html can display it
+        sellerName:    profile.name    || authUser.name || '',
+        sellerDisplay: profile.username || profile.name || authUser.name || '',
+        sellerAvatar:  profile.avatar  || '',
+        sellerBio:     profile.bio     || '',
+        sellerCity:    profile.city    || '',
       };
 
-      const listings = JSON.parse(localStorage.getItem('sellerListings') || '[]');
-      listings.unshift(listing);
-      localStorage.setItem('sellerListings', JSON.stringify(listings));
+      // Disable button while saving
+      const btn = document.querySelector('.form-save-bar .btn-primary');
+      const origText = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'Saving…';
 
-      // Show success banner
-      const banner = document.getElementById('list-success');
-      document.getElementById('list-success-msg').textContent =
-        `"${name}" is now live in the store for ${listing.priceLabel}!`;
-      banner.classList.add('show');
-      setTimeout(() => banner.classList.remove('show'), 5000);
+      try {
+        const res  = await fetch(`${SERVER_URL}/listings`, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+          body:    JSON.stringify(payload),
+        });
+        const data = await res.json();
 
-      clearMarketForm();
-      renderMyItems();
-      showToast('🎉 Listed for sale!');
-      // Mark seller badge
-      document.getElementById('ph-seller-badge').style.display = 'inline-flex';
+        if (!data.success) throw new Error(data.message || 'Failed to list item.');
+
+        // Also save to localStorage for offline display on this device
+        const localListing = { ...data.listing, serverId: data.listing.id, id: data.listing.id };
+        const localListings = JSON.parse(localStorage.getItem('sellerListings') || '[]');
+        localListings.unshift(localListing);
+        localStorage.setItem('sellerListings', JSON.stringify(localListings));
+
+        // Show success banner
+        const banner = document.getElementById('list-success');
+        document.getElementById('list-success-msg').textContent =
+          `"${name}" is now live in the store for Ksh ${price.toLocaleString()}!`;
+        banner.classList.add('show');
+        setTimeout(() => banner.classList.remove('show'), 5000);
+
+        clearMarketForm();
+        renderMyItems();
+        showToast('🎉 Listed for sale!');
+        document.getElementById('ph-seller-badge').style.display = 'inline-flex';
+
+      } catch (err) {
+        errEl.textContent = err.message || 'Could not save listing. Please try again.';
+        errEl.style.display = 'block';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = origText;
+      }
     }
 
     function clearMarketForm() {
@@ -1025,12 +1061,21 @@
       `).join('');
     }
 
-    function removeItem(id) {
+    async function removeItem(id) {
       if (!confirm('Remove this listing from the store?')) return;
-      const listings = JSON.parse(localStorage.getItem('sellerListings') || '[]').filter(l => l.id !== id);
-      localStorage.setItem('sellerListings', JSON.stringify(listings));
+      // Remove from localStorage immediately
+      const updated = JSON.parse(localStorage.getItem('sellerListings') || '[]').filter(l => l.id !== id);
+      localStorage.setItem('sellerListings', JSON.stringify(updated));
       renderMyItems();
       showToast('Listing removed');
+      // Also delete from server (best effort)
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        fetch(`${SERVER_URL}/listings/${id}`, {
+          method: 'DELETE',
+          headers: { Authorization: `Bearer ${token}` },
+        }).catch(() => {});
+      }
     }
 
     // ── NAV AUTH ───────────────────────────────────────────────────────────────
