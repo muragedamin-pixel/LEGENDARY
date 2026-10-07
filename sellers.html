@@ -6,7 +6,7 @@
   <title>Explore Collection — EMPRESS</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@400;600;700&family=Cinzel:wght@700;900&family=Josefin+Sans:wght@700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@400;600;700&family=Cinzel:wght@700;900&family=Josefin+Sans:wght@700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <style>
     /* ── PAGE HERO ── */
@@ -116,111 +116,38 @@
       min-height: 60vh;
     }
 
-    /* ── SELLER SECTION ── */
-    .seller-section {
-      margin-bottom: 4rem;
-      background: var(--card);
-      border-radius: 20px;
-      overflow: hidden;
-      border: 1.5px solid var(--border);
-      box-shadow: 0 4px 20px rgba(90,0,16,.07);
-    }
-    .seller-header {
-      display: flex;
-      align-items: center;
-      gap: 1.25rem;
-      padding: 1.5rem 2rem;
-      background: var(--white);
-      border-bottom: 1px solid var(--border);
-      flex-wrap: wrap;
-    }
-    .seller-avatar {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2.5px solid var(--rose);
-      flex-shrink: 0;
-      background: var(--blush);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.8rem;
-      overflow: hidden;
-    }
-    .seller-avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 50%;
-    }
-    .seller-info { flex: 1 1 180px; }
-    .seller-info h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.3rem;
-      color: var(--text);
-      margin-bottom: .2rem;
-    }
-    .seller-info .seller-meta {
-      font-size: .8rem;
-      color: var(--text-muted);
-      display: flex;
-      gap: .75rem;
-      flex-wrap: wrap;
-      margin-bottom: .4rem;
-    }
-    .seller-info .seller-bio {
-      font-size: .85rem;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-    .seller-info .seller-city {
-      font-size: .78rem;
-      color: var(--tan);
-      font-weight: 700;
-      letter-spacing: .08em;
-    }
-    .seller-items-count {
-      background: var(--blush);
-      border: 1.5px solid var(--border);
-      border-radius: 20px;
-      padding: .5rem 1.1rem;
-      font-size: .78rem;
-      font-weight: 700;
-      color: var(--rose-dark);
-      letter-spacing: .08em;
-      white-space: nowrap;
+    /* ── FLAT ITEMS GRID ── */
+    .items-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.5rem;
     }
 
-    /* ── ITEMS GRID ── */
-    .seller-items {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 1.25rem;
-      padding: 1.5rem 2rem;
-      background: var(--card);
-    }
     .item-card {
-      background: var(--white);
-      border-radius: 14px;
+      background: var(--card);
+      border-radius: 16px;
       overflow: hidden;
       border: 1.5px solid var(--border);
       cursor: pointer;
       transition: transform .25s, box-shadow .25s;
       position: relative;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
     }
     .item-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 28px rgba(196,96,122,.14);
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(196,96,122,.16);
     }
     .item-img {
-      height: 220px;
+      height: 240px;
       background: var(--tan-light);
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
       position: relative;
+      flex-shrink: 0;
     }
     .item-img img {
       width: 100%;
@@ -229,11 +156,11 @@
       transition: transform .4s;
     }
     .item-card:hover .item-img img { transform: scale(1.05); }
-    .item-img .item-emoji { font-size: 4rem; }
+    .item-img .item-emoji { font-size: 3.5rem; }
     .item-img .item-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(196,96,122,.45);
+      background: rgba(196,96,122,.5);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -245,11 +172,20 @@
       background: #fff;
       color: var(--rose-dark);
       border: none;
-      padding: .6rem 1.3rem;
+      padding: .7rem 1.6rem;
       font-weight: 700;
       cursor: pointer;
       border-radius: 20px;
-      font-size: .82rem;
+      font-size: .85rem;
+      transition: transform .15s;
+    }
+    .item-enquire-btn:hover { transform: scale(1.05); }
+    
+    .item-body {
+      padding: 1.2rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
     }
     .item-cat-tag {
       font-size: .7rem;
@@ -257,27 +193,39 @@
       letter-spacing: .14em;
       color: var(--tan);
       text-transform: uppercase;
-      padding: .85rem 1rem .2rem;
+      margin-bottom: .5rem;
       display: block;
     }
     .item-card h4 {
-      font-size: .95rem;
-      padding: 0 1rem .4rem;
+      font-size: 1rem;
       color: var(--text);
+      margin-bottom: .5rem;
+      font-family: 'Playfair Display', serif;
+      line-height: 1.4;
     }
     .item-card .item-price {
       display: block;
-      font-size: 1.05rem;
+      font-size: 1.2rem;
       color: var(--rose-dark);
-      padding: 0 1rem;
       font-family: 'Playfair Display', serif;
       font-weight: 700;
+      margin-bottom: .75rem;
+    }
+    .item-seller {
+      font-size: .75rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      padding-top: .75rem;
+      border-top: 1px solid var(--border);
+    }
+    .item-seller .seller-name {
+      font-weight: 600;
+      color: var(--text);
     }
     .item-card .item-condition {
-      font-size: .72rem;
+      font-size: .8rem;
       color: var(--text-muted);
-      padding: .3rem 1rem .9rem;
-      display: block;
+      margin-bottom: .75rem;
     }
     .item-badge {
       position: absolute;
@@ -288,9 +236,10 @@
       font-size: .68rem;
       font-weight: 700;
       letter-spacing: .1em;
-      padding: .2rem .6rem;
+      padding: .25rem .75rem;
       border-radius: 20px;
       text-transform: uppercase;
+      z-index: 1;
     }
 
     /* ── ENQUIRY MODAL ── */
@@ -357,10 +306,10 @@
       justify-content: center;
       background: var(--tan-light);
     }
-    .enquiry-item-info h4 { font-size: 1rem; color: var(--text); margin-bottom: .25rem; }
-    .enquiry-item-info .price { font-size: 1.05rem; color: var(--rose-dark); font-family: 'Playfair Display', serif; font-weight: 700; }
-    .enquiry-item-info .cond { font-size: .78rem; color: var(--text-muted); }
-    .enquiry-body { padding: 1.25rem 1.5rem; }
+    .enquiry-item-info h4 { font-size: 1rem; color: var(--text); margin-bottom: .25rem; font-family: 'Playfair Display', serif; }
+    .enquiry-item-info .price { font-size: 1.1rem; color: var(--rose-dark); font-family: 'Playfair Display', serif; font-weight: 700; }
+    .enquiry-item-info .seller { font-size: .75rem; color: var(--text-muted); margin-top: .4rem; }
+    .enquiry-body { padding: 1.5rem; }
     .enquiry-row {
       display: flex;
       align-items: flex-start;
@@ -420,6 +369,7 @@
       text-align: center;
       padding: 5rem 2rem;
       color: var(--text-muted);
+      grid-column: 1 / -1;
     }
     .empty-state .empty-icon { font-size: 4rem; margin-bottom: 1rem; }
     .empty-state h3 {
@@ -439,36 +389,31 @@
       0% { background-position: 200% 0; }
       100% { background-position: -200% 0; }
     }
-    .skeleton-section {
-      margin-bottom: 4rem;
-      border-radius: 20px;
-      overflow: hidden;
-      border: 1.5px solid var(--border);
-    }
-    .skeleton-header { height: 100px; }
     .skeleton-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 1.25rem;
-      padding: 1.5rem 2rem;
-      background: var(--card);
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.5rem;
     }
-    .skeleton-card { height: 300px; border-radius: 14px; }
+    .skeleton-card { height: 340px; border-radius: 16px; }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
       .sellers-hero { padding: 4rem 5% 3rem; }
       .collection-controls { top: 64px; padding: 1rem 4%; }
       .sellers-page { padding: 2rem 4%; }
-      .seller-header { padding: 1.2rem 1.25rem; }
-      .seller-items { padding: 1.25rem; gap: 1rem; }
-      .seller-items { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
-      .item-img { height: 180px; }
+      .items-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.2rem; }
+      .item-img { height: 200px; }
     }
-    @media (max-width: 480px) {
-      .seller-items { grid-template-columns: 1fr 1fr; gap: .75rem; }
-      .seller-header { gap: .85rem; }
-      .seller-avatar { width: 52px; height: 52px; }
+    @media (max-width: 600px) {
+      .items-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: .85rem; }
+      .item-body { padding: .9rem; }
+      .item-img { height: 160px; }
+      .item-card h4 { font-size: .9rem; }
+      .item-card .item-price { font-size: 1rem; }
+    }
+    @media (max-width: 400px) {
+      .items-grid { grid-template-columns: 1fr 1fr; }
+      .item-img { height: 180px; }
     }
   </style>
 </head>
@@ -519,29 +464,17 @@
   <span class="results-count" id="results-count"></span>
 </div>
 
-<!-- ── SELLERS + ITEMS ── -->
-<main class="sellers-page" id="sellers-page">
-  <!-- skeleton loading state -->
-  <div id="skeleton-loader">
-    <div class="skeleton-section">
-      <div class="skeleton-header skeleton-pulse"></div>
-      <div class="skeleton-grid">
-        <div class="skeleton-card skeleton-pulse"></div>
-        <div class="skeleton-card skeleton-pulse"></div>
-        <div class="skeleton-card skeleton-pulse"></div>
-        <div class="skeleton-card skeleton-pulse"></div>
-      </div>
-    </div>
-    <div class="skeleton-section">
-      <div class="skeleton-header skeleton-pulse"></div>
-      <div class="skeleton-grid">
-        <div class="skeleton-card skeleton-pulse"></div>
-        <div class="skeleton-card skeleton-pulse"></div>
-        <div class="skeleton-card skeleton-pulse"></div>
-      </div>
-    </div>
+<!-- ── ITEMS GRID ── -->
+<main class="sellers-page">
+  <div id="skeleton-loader" class="skeleton-grid">
+    <div class="skeleton-card skeleton-pulse"></div>
+    <div class="skeleton-card skeleton-pulse"></div>
+    <div class="skeleton-card skeleton-pulse"></div>
+    <div class="skeleton-card skeleton-pulse"></div>
+    <div class="skeleton-card skeleton-pulse"></div>
+    <div class="skeleton-card skeleton-pulse"></div>
   </div>
-  <div id="sellers-container" style="display:none"></div>
+  <div id="items-container" class="items-grid" style="display:none"></div>
 </main>
 
 <!-- ── ENQUIRY MODAL ── -->
@@ -562,22 +495,23 @@
   const CAT_LABELS = { bags: 'Handbag', shoes: 'Shoes', clothing: 'Clothing' };
   const CAT_ICONS  = { bags: '👜', shoes: '👠', clothing: '👗' };
 
-  let allSellers  = [];
   let allListings = [];
+  let allSellers = [];
   let activeFilter = 'all';
-  let searchQuery  = '';
+  let searchQuery = '';
 
   function esc(s) {
     return String(s || '')
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
   }
+
   function safeImg(url) {
     const u = String(url || '').trim();
     return /^(https?:|data:image\/|\/|\.\/)/i.test(u) ? u : '';
   }
 
-  // ── FETCH DATA ──────────────────────────────────────────────────────────────
+  // ── FETCH DATA ──────────────────────────────────────────────────────────
   async function loadData() {
     try {
       const [sRes, lRes] = await Promise.all([
@@ -586,41 +520,35 @@
       ]);
       const sData = await sRes.json();
       const lData = await lRes.json();
-      allSellers  = sData.sellers  || [];
+      allSellers = sData.sellers || [];
       allListings = lData.listings || [];
     } catch (e) {
       console.error('Failed to load listings', e);
-      allSellers  = [];
+      allSellers = [];
       allListings = [];
     }
     document.getElementById('skeleton-loader').style.display = 'none';
-    document.getElementById('sellers-container').style.display = 'block';
+    document.getElementById('items-container').style.display = 'grid';
     render();
   }
 
-  // ── RENDER ──────────────────────────────────────────────────────────────────
+  // ── RENDER ALL ITEMS ────────────────────────────────────────────────────
   function render() {
-    const container = document.getElementById('sellers-container');
+    const container = document.getElementById('items-container');
     const q = searchQuery.toLowerCase();
 
-    // filter listings by category + search
     const filteredListings = allListings.filter(item => {
       const matchCat = activeFilter === 'all' || item.cat === activeFilter;
       const matchQ   = !q || item.name.toLowerCase().includes(q)
-                            || (item.description || '').toLowerCase().includes(q)
-                            || (item.sellerDisplay || item.sellerName || '').toLowerCase().includes(q);
+                             || (item.description || '').toLowerCase().includes(q)
+                             || (item.sellerDisplay || item.sellerName || '').toLowerCase().includes(q);
       return matchCat && matchQ;
     });
 
-    // which sellers have visible items
-    const visibleEmails = new Set(filteredListings.map(l => l.sellerEmail));
-    const visibleSellers = allSellers.filter(s => visibleEmails.has(s.email));
-
-    // update count
     document.getElementById('results-count').textContent =
-      `${filteredListings.length} item${filteredListings.length !== 1 ? 's' : ''} · ${visibleSellers.length} seller${visibleSellers.length !== 1 ? 's' : ''}`;
+      `${filteredListings.length} item${filteredListings.length !== 1 ? 's' : ''}`;
 
-    if (visibleSellers.length === 0) {
+    if (filteredListings.length === 0) {
       container.innerHTML = `
         <div class="empty-state">
           <div class="empty-icon">🛍</div>
@@ -628,74 +556,56 @@
           <p>${allListings.length === 0
             ? 'No one has listed an item yet. Be the first seller!'
             : 'Try a different search or filter.'}</p>
-          <a href="dashboard.html" class="btn-primary" style="display:inline-block;text-decoration:none">List an Item ✦</a>
+          <a href="dashboard.html" class="btn-primary" style="display:inline-block;text-decoration:none;margin-top:1.5rem">List an Item ✦</a>
         </div>`;
       return;
     }
 
-    container.innerHTML = visibleSellers.map(seller => {
-      const items = filteredListings.filter(l => l.sellerEmail === seller.email);
-      const avatarSrc = safeImg(seller.avatar);
-      const avatarHtml = avatarSrc
-        ? `<div class="seller-avatar"><img src="${esc(avatarSrc)}" alt="${esc(seller.name)}" onerror="this.parentNode.innerHTML='👤'" /></div>`
-        : `<div class="seller-avatar">👤</div>`;
-
-      const itemsHtml = items.map(item => {
-        const imgSrc = safeImg(item.img);
-        const imgHtml = imgSrc
-          ? `<img src="${esc(imgSrc)}" alt="${esc(item.name)}" loading="lazy" onerror="this.parentNode.innerHTML='<span class=item-emoji>${CAT_ICONS[item.cat]||'🛍'}</span>'" />`
-          : `<span class="item-emoji">${CAT_ICONS[item.cat] || '🛍'}</span>`;
-        return `
-          <div class="item-card" onclick="openEnquiry(${item.id})">
-            ${item.negotiable ? '<span class="item-badge">Negotiable</span>' : ''}
-            <div class="item-img">
-              ${imgHtml}
-              <div class="item-overlay">
-                <button class="item-enquire-btn" onclick="event.stopPropagation();openEnquiry(${item.id})">Enquire</button>
-              </div>
-            </div>
-            <span class="item-cat-tag">${esc(CAT_LABELS[item.cat] || item.cat)}</span>
-            <h4>${esc(item.name)}</h4>
-            <strong class="item-price">${esc(item.priceLabel)}</strong>
-            <span class="item-condition">${esc(item.condition)}</span>
-          </div>`;
-      }).join('');
+    container.innerHTML = filteredListings.map(item => {
+      const imgSrc = safeImg(item.img);
+      const imgHtml = imgSrc
+        ? `<img src="${esc(imgSrc)}" alt="${esc(item.name)}" loading="lazy" onerror="this.parentNode.innerHTML='<span class=item-emoji>${CAT_ICONS[item.cat]||'🛍'}</span>'" />`
+        : `<span class="item-emoji">${CAT_ICONS[item.cat] || '🛍'}</span>`;
 
       return `
-        <div class="seller-section" data-seller="${esc(seller.email)}">
-          <div class="seller-header">
-            ${avatarHtml}
-            <div class="seller-info">
-              <h2>${esc(seller.name)}</h2>
-              <div class="seller-meta">
-                ${seller.city ? `<span class="seller-city">📍 ${esc(seller.city)}</span>` : ''}
-                <span>${seller.itemCount} item${seller.itemCount !== 1 ? 's' : ''} listed</span>
-              </div>
-              ${seller.bio ? `<p class="seller-bio">${esc(seller.bio)}</p>` : ''}
+        <div class="item-card" onclick="openEnquiry(${item.id})">
+          ${item.negotiable ? '<span class="item-badge">Negotiable</span>' : ''}
+          <div class="item-img">
+            ${imgHtml}
+            <div class="item-overlay">
+              <button class="item-enquire-btn" onclick="event.stopPropagation();openEnquiry(${item.id})">Enquire</button>
             </div>
-            <span class="seller-items-count">${items.length} item${items.length !== 1 ? 's' : ''}</span>
           </div>
-          <div class="seller-items">${itemsHtml}</div>
+          <div class="item-body">
+            <span class="item-cat-tag">${esc(CAT_LABELS[item.cat] || item.cat)}</span>
+            <h4>${esc(item.name)}</h4>
+            <div class="item-price">${esc(item.priceLabel)}</div>
+            ${item.condition ? `<span class="item-condition">${esc(item.condition)}</span>` : ''}
+            <div class="item-seller">
+              By <span class="seller-name">${esc(item.sellerDisplay || item.sellerName || 'Anonymous')}</span>
+            </div>
+          </div>
         </div>`;
     }).join('');
   }
 
-  // ── ENQUIRY MODAL ────────────────────────────────────────────────────────────
+  // ── ENQUIRY MODAL ───────────────────────────────────────────────────────
   function openEnquiry(id) {
     const item = allListings.find(l => l.id === id);
     if (!item) return;
 
     const imgSrc = safeImg(item.img);
     const imgHtml = imgSrc
-      ? `<img src="${esc(imgSrc)}" alt="${esc(item.name)}" style="width:72px;height:72px;object-fit:cover;border-radius:10px;flex-shrink:0" onerror="this.outerHTML='<div class=preview-emoji>${CAT_ICONS[item.cat]||'🛍'}</div>'" />`
-      : `<div class="preview-emoji" style="font-size:2.5rem;width:72px;height:72px;display:flex;align-items:center;justify-content:center;background:var(--tan-light);border-radius:10px;flex-shrink:0">${CAT_ICONS[item.cat]||'🛍'}</div>`;
+      ? `<img src="${esc(imgSrc)}" alt="${esc(item.name)}" onerror="this.outerHTML='<div class=preview-emoji>${CAT_ICONS[item.cat]||'🛍'}</div>'" />`
+      : `<div class="preview-emoji">${CAT_ICONS[item.cat] || '🛍'}</div>`;
 
     document.getElementById('enquiry-preview').innerHTML = `
       ${imgHtml}
       <div class="enquiry-item-info">
         <h4>${esc(item.name)}</h4>
         <div class="price">${esc(item.priceLabel)}</div>
-        <div class="cond">${esc(item.condition)}${item.negotiable ? ' · Negotiable' : ''}</div>
+        ${item.condition ? `<div class="seller">${esc(item.condition)}</div>` : ''}
+        <div class="seller">by ${esc(item.sellerDisplay || item.sellerName || 'Seller')}</div>
       </div>`;
 
     const phone = esc(item.contact || '');
@@ -710,7 +620,7 @@
       ${item.size ? `<div class="enquiry-row"><span class="erow-label">Size</span><span class="erow-val">${esc(item.size)}</span></div>` : ''}
       ${item.delivery ? `<div class="enquiry-row"><span class="erow-label">Delivery</span><span class="erow-val">${esc(item.delivery)}</span></div>` : ''}
       ${item.location ? `<div class="enquiry-row"><span class="erow-label">Location</span><span class="erow-val">${esc(item.location)}</span></div>` : ''}
-      <div class="enquiry-row"><span class="erow-label">Seller</span><span class="erow-val">${esc(item.sellerDisplay || item.sellerName)}</span></div>
+      <div class="enquiry-row"><span class="erow-label">Seller</span><span class="erow-val">${esc(item.sellerDisplay || item.sellerName || 'Seller')}</span></div>
       ${phone ? `<div class="enquiry-contact-btns">
         ${showWa ? `<a class="whatsapp-btn" href="https://wa.me/${phone.replace(/[^0-9]/g,'')}?text=${waMsg}" target="_blank" rel="noopener">💬 WhatsApp</a>` : ''}
         ${showCall ? `<a class="call-btn" href="tel:${phone}">📞 Call Seller</a>` : ''}
@@ -726,7 +636,7 @@
     if (e.target === this) closeEnquiry();
   });
 
-  // ── FILTERS ──────────────────────────────────────────────────────────────────
+  // ── FILTERS ─────────────────────────────────────────────────────────────
   document.querySelectorAll('.cat-filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       activeFilter = btn.dataset.cat;
@@ -742,7 +652,6 @@
     searchTimer = setTimeout(() => { searchQuery = this.value; render(); }, 280);
   });
 
-  // ── INIT ──────────────────────────────────────────────────────────────────────
   loadData();
 </script>
 
