@@ -11,10 +11,10 @@
     .dash-hero { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 3rem; }
     .dash-hero h1 { font-size: 2.4rem; color: var(--text); }
     .dash-hero p { color: var(--text-muted); font-size: .9rem; margin-top: .25rem; }
-    .profile-card { background: var(--card); border: 1.5px solid var(--border); border-radius: 20px; padding: 2rem; display: flex; align-items: center; gap: 1.75rem; flex-wrap: wrap; margin-bottom: 3rem; }
+    .profile-card { background: var(--card); border: 1.5px solid var(--border); border-radius: 20px; padding: 2rem; display: flex; align-items: center; gap: 1.75rem; flex-wrap: wrap; margin-bottom: 2rem; }
     .avatar-wrap { position: relative; width: 88px; height: 88px; flex-shrink: 0; }
     .avatar-wrap img { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; border: 3px solid var(--rose); }
-    .avatar-edit { position: absolute; bottom: 0; right: 0; background: var(--rose-dark); color: #fff; border: none; border-radius: 50%; width: 28px; height: 28px; font-size: .85rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .avatar-edit { position: absolute; bottom: 0; right: 0; background: var(--rose-dark); color: #fff; border: none; border-radius: 50%; width: 28px; height: 28px; font-size: .85rem; cursor: pointer; }
     #avatar-input { display: none; }
     .profile-fields { display: flex; flex-direction: column; gap: .65rem; flex: 1; min-width: 220px; }
     .profile-fields input {
@@ -27,13 +27,13 @@
     .section-title { font-size: 1.6rem; color: var(--text); margin-bottom: 1.5rem; }
     .section-title span { font-size: .75rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--tan); display: block; margin-bottom: .3rem; }
     .add-item-card { background: var(--card); border: 1.5px solid var(--border); border-radius: 20px; padding: 2rem; margin-bottom: 3rem; }
-    .img-upload-zone { border: 2px dashed var(--border); border-radius: 14px; height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .75rem; cursor: pointer; transition: border-color .2s, background .2s; position: relative; overflow: hidden; margin-bottom: 1.5rem; }
+    .img-upload-zone { border: 2px dashed var(--border); border-radius: 14px; height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .75rem; cursor: pointer; position: relative; overflow: hidden; transition: border-color .2s, background .2s; }
     .img-upload-zone:hover { border-color: var(--rose-dark); background: var(--blush); }
     .img-upload-zone.has-image { border-style: solid; border-color: var(--rose); }
     .img-upload-zone img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
     .img-upload-zone .upload-label { font-size: .85rem; color: var(--text-muted); text-align: center; line-height: 1.7; pointer-events: none; z-index: 1; }
     .img-upload-zone .upload-icon { font-size: 2.5rem; pointer-events: none; z-index: 1; }
-    .img-upload-zone .img-overlay-btn { position: absolute; bottom: .75rem; right: .75rem; background: rgba(0,0,0,.55); color: #fff; border: none; border-radius: 20px; padding: .4rem .9rem; font-size: .75rem; cursor: pointer; font-family: 'Lato', sans-serif; font-weight: 700; z-index: 2; display: none; }
+    .img-upload-zone .img-overlay-btn { position: absolute; bottom: .75rem; right: .75rem; background: rgba(0,0,0,.55); color: #fff; border: none; border-radius: 20px; padding: .4rem .9rem; font-size: .7rem; font-weight: 700; display: none; cursor: pointer; }
     .img-upload-zone.has-image .img-overlay-btn { display: block; }
     .img-upload-zone.has-image .upload-icon, .img-upload-zone.has-image .upload-label { display: none; }
     #item-img-input { display: none; }
@@ -56,18 +56,18 @@
     .listing-cat { font-size: .7rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--tan); margin-bottom: .3rem; }
     .listing-name { font-size: 1rem; color: var(--text); margin-bottom: .35rem; font-family: 'Playfair Display', serif; }
     .listing-price { font-size: 1.1rem; color: var(--rose-dark); font-family: 'Playfair Display', serif; font-weight: 700; }
-    .listing-status { display: inline-flex; align-items: center; gap: .35rem; font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin-top: .6rem; padding: .3rem .75rem; border-radius: 20px; }
+    .listing-status { display: inline-flex; align-items: center; gap: .35rem; font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin-top: .6rem; padding: .3rem .6rem; border-radius: 999px; }
     .status-live { background: #d4f5de; color: #1a7a3a; }
     body.dark .status-live { background: #0d2a15; color: #5acc7a; }
     .listing-actions { display: flex; gap: .5rem; margin-top: .75rem; }
-    .btn-delete { background: none; border: 1.5px solid #e05050; color: #e05050; padding: .4rem .9rem; border-radius: 20px; font-size: .75rem; font-weight: 700; cursor: pointer; font-family: 'Lato', sans-serif; transition: all .2s; }
+    .btn-delete { background: none; border: 1.5px solid #e05050; color: #e05050; padding: .4rem .9rem; border-radius: 20px; font-size: .75rem; font-weight: 700; cursor: pointer; font-family: 'Lato', sans-serif; }
     .btn-delete:hover { background: #e05050; color: #fff; }
-    .btn-edit-listing { background: none; border: 1.5px solid var(--border); color: var(--text-muted); padding: .4rem .9rem; border-radius: 20px; font-size: .75rem; font-weight: 700; cursor: pointer; font-family: 'Lato', sans-serif; transition: all .2s; }
+    .btn-edit-listing { background: none; border: 1.5px solid var(--border); color: var(--text-muted); padding: .4rem .9rem; border-radius: 20px; font-size: .75rem; font-weight: 700; cursor: pointer; font-family: 'Lato', sans-serif; }
     .btn-edit-listing:hover { border-color: var(--rose-dark); color: var(--rose-dark); }
     .empty-listings { grid-column: 1 / -1; text-align: center; padding: 4rem 2rem; color: var(--text-muted); }
     .empty-listings .empty-icon { font-size: 3.5rem; margin-bottom: 1rem; }
     .empty-listings p { font-size: .95rem; line-height: 1.7; }
-    .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(80px); background: #1a1a1a; color: #fff; padding: .85rem 2rem; border-radius: 30px; font-size: .88rem; font-weight: 600; z-index: 999; transition: transform .35s cubic-bezier(.4,0,.2,1), opacity .35s; opacity: 0; pointer-events: none; white-space: nowrap; }
+    .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(80px); background: #1a1a1a; color: #fff; padding: .85rem 2rem; border-radius: 30px; font-size: .88rem; box-shadow: 0 10px 30px rgba(0,0,0,.2); opacity: 0; transition: all .3s ease; z-index: 1000; }
     .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
     .dash-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-bottom: 3rem; }
     .dash-stat { background: var(--card); border: 1.5px solid var(--border); border-radius: 16px; padding: 1.25rem; text-align: center; }
@@ -175,7 +175,7 @@
   <script>
     const SERVER_URL = 'https://harmonious-flow-production-0060.up.railway.app';
 
-    // ── ACTIVITY TRACKER ───────────────────────────────────────────────────────
+    // ── ACTIVITY TRACKER ──────────────────────────────────────────────────────
     function track(action, detail = '') {
       const token = localStorage.getItem('authToken');
       fetch(`${SERVER_URL}/activity`, {
@@ -308,7 +308,7 @@
       safeStorageSet('sellerListings', listings);
     }
 
-    function addListing() {
+    async function addListing() {
       const name = document.getElementById('item-name').value.trim();
       const priceRaw = document.getElementById('item-price').value.trim();
       const cat = document.getElementById('item-cat').value;
@@ -324,6 +324,7 @@
       errEl.style.display = 'none';
 
       const price = parseInt(priceRaw, 10);
+      const profile = safeStorageGet('sellerProfile', {});
       const listing = {
         id: Date.now(),
         name,
@@ -331,15 +332,43 @@
         priceLabel: 'Ksh ' + price.toLocaleString(),
         cat,
         condition,
+        description: desc,
         desc,
         img: currentImageDataUrl,
         createdAt: new Date().toISOString(),
-        status: 'live'
+        status: 'live',
+        sellerName: profile.name || 'Seller',
+        sellerDisplay: profile.name || 'Seller',
+        contact: profile.phone || '',
+        contactMethod: 'WhatsApp',
+        brand: '',
+        colour: '',
+        size: '',
+        delivery: 'Within 2-4 business days',
+        location: '',
+        negotiable: false
       };
 
       const listings = getListings();
       listings.unshift(listing);
       saveListings(listings);
+
+      try {
+        const response = await fetch(`${SERVER_URL}/listings`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(listing)
+        });
+
+        if (!response.ok) {
+          throw new Error(`Server error: ${response.status}`);
+        }
+        console.log('Listing uploaded to server:', listing.id);
+      } catch (error) {
+        console.error('Failed to upload listing to server:', error);
+        showToast('⚠ Listed locally. Server upload failed.');
+      }
+
       resetForm();
       renderListings();
       updateStats();
