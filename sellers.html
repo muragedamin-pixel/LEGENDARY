@@ -496,7 +496,6 @@
   const CAT_ICONS  = { bags: '👜', shoes: '👠', clothing: '👗' };
 
   let allListings = [];
-  let allSellers = [];
   let activeFilter = 'all';
   let searchQuery = '';
 
@@ -514,17 +513,12 @@
   // ── FETCH DATA ──────────────────────────────────────────────────────────
   async function loadData() {
     try {
-      const [sRes, lRes] = await Promise.all([
-        fetch(`${SERVER_URL}/listings/sellers`),
-        fetch(`${SERVER_URL}/listings`),
-      ]);
-      const sData = await sRes.json();
+      const lRes = await fetch(`${SERVER_URL}/listings`);
       const lData = await lRes.json();
-      allSellers = sData.sellers || [];
       allListings = lData.listings || [];
+      console.log(`Loaded ${allListings.length} listings from all sellers`);
     } catch (e) {
       console.error('Failed to load listings', e);
-      allSellers = [];
       allListings = [];
     }
     document.getElementById('skeleton-loader').style.display = 'none';
@@ -532,11 +526,12 @@
     render();
   }
 
-  // ── RENDER ALL ITEMS ────────────────────────────────────────────────────
+  // ── RENDER ALL ITEMS IN FLAT GRID ────────────────────────────────────────
   function render() {
     const container = document.getElementById('items-container');
     const q = searchQuery.toLowerCase();
 
+    // Filter listings by category + search
     const filteredListings = allListings.filter(item => {
       const matchCat = activeFilter === 'all' || item.cat === activeFilter;
       const matchQ   = !q || item.name.toLowerCase().includes(q)
@@ -545,9 +540,11 @@
       return matchCat && matchQ;
     });
 
+    // Update results count
     document.getElementById('results-count').textContent =
       `${filteredListings.length} item${filteredListings.length !== 1 ? 's' : ''}`;
 
+    // Empty state
     if (filteredListings.length === 0) {
       container.innerHTML = `
         <div class="empty-state">
@@ -561,6 +558,7 @@
       return;
     }
 
+    // Render all items in a single flat grid
     container.innerHTML = filteredListings.map(item => {
       const imgSrc = safeImg(item.img);
       const imgHtml = imgSrc
@@ -582,7 +580,7 @@
             <div class="item-price">${esc(item.priceLabel)}</div>
             ${item.condition ? `<span class="item-condition">${esc(item.condition)}</span>` : ''}
             <div class="item-seller">
-              By <span class="seller-name">${esc(item.sellerDisplay || item.sellerName || 'Anonymous')}</span>
+              By <span class="seller-name">${esc(item.sellerDisplay || item.sellerName || 'Seller')}</span>
             </div>
           </div>
         </div>`;
@@ -608,7 +606,7 @@
         <div class="seller">by ${esc(item.sellerDisplay || item.sellerName || 'Seller')}</div>
       </div>`;
 
-    const phone = esc(item.contact || '');
+    const phone = String(item.contact || '').replace(/\D/g, '');
     const waMsg = encodeURIComponent(`Hi! I found your listing on EMPRESS — I'm interested in the ${item.name} (${item.priceLabel}). Is it still available?`);
     const showWa = item.contactMethod !== 'Phone Call' && phone;
     const showCall = item.contactMethod !== 'WhatsApp' && phone;
@@ -622,9 +620,9 @@
       ${item.location ? `<div class="enquiry-row"><span class="erow-label">Location</span><span class="erow-val">${esc(item.location)}</span></div>` : ''}
       <div class="enquiry-row"><span class="erow-label">Seller</span><span class="erow-val">${esc(item.sellerDisplay || item.sellerName || 'Seller')}</span></div>
       ${phone ? `<div class="enquiry-contact-btns">
-        ${showWa ? `<a class="whatsapp-btn" href="https://wa.me/${phone.replace(/[^0-9]/g,'')}?text=${waMsg}" target="_blank" rel="noopener">💬 WhatsApp</a>` : ''}
-        ${showCall ? `<a class="call-btn" href="tel:${phone}">📞 Call Seller</a>` : ''}
-      </div>` : '<p style="color:var(--text-muted);font-size:.85rem;margin-top:1rem">Contact info not provided. Try messaging via WhatsApp if available.</p>'}`;
+        ${showWa ? `<a class="whatsapp-btn" href="https://wa.me/${phone}?text=${waMsg}" target="_blank" rel="noopener">💬 WhatsApp</a>` : ''}
+        ${showCall ? `<a class="call-btn" href="tel:+254${phone.replace(/^254|^0/, '')}">📞 Call Seller</a>` : ''}
+      </div>` : '<p style="color:var(--text-muted);font-size:.85rem;margin-top:1rem">Contact info not provided.</p>'}`;
 
     document.getElementById('enquiry-modal').classList.add('open');
   }
@@ -652,6 +650,7 @@
     searchTimer = setTimeout(() => { searchQuery = this.value; render(); }, 280);
   });
 
+  // ── INIT ────────────────────────────────────────────────────────────────
   loadData();
 </script>
 
