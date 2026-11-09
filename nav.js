@@ -104,7 +104,7 @@
       '</button>' +
       '<div class="nav-dropdown" id="nav-dropdown">' +
         '<a href="profile.html">👤 My Profile</a>' +
-        '<a href="dashboard.html">🛍 My Dashboard</a>' +
+        '<a href="profile & dashboard.html">🛍 My Dashboard</a>' +
         '<a href="store.html?seller=' + email + '">🔗 My Store</a>' +
         '<div class="dropdown-divider"></div>' +
         '<button class="dropdown-logout" onclick="window.__empressLogout()">Sign Out</button>' +
