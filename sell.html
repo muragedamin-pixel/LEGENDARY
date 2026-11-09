@@ -3,27 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>EMPRESS — Seller Dashboard</title>
+<title>EMPRESS — Sell Dashboard</title>
 <link rel="stylesheet" href="styles.css" />
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:wght@400;700;900&family=Lato:wght@300;400;600&display=swap" rel="stylesheet" />  <style>
   <style>  
-  .dash-wrap { max-width: 960px; margin: 6rem auto 5rem; padding: 0 5%; }
-    .dash-hero { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 3rem; }
-    .dash-hero h1 { font-size: 2.4rem; color: var(--text); }
-    .dash-hero p { color: var(--text-muted); font-size: .9rem; margin-top: .25rem; }
-    .profile-card { background: var(--card); border: 1.5px solid var(--border); border-radius: 20px; padding: 2rem; display: flex; align-items: center; gap: 1.75rem; flex-wrap: wrap; margin-bottom: 2rem; }
-    .avatar-wrap { position: relative; width: 88px; height: 88px; flex-shrink: 0; }
-    .avatar-wrap img { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; border: 3px solid var(--rose); }
-    .avatar-edit { position: absolute; bottom: 0; right: 0; background: var(--rose-dark); color: #fff; border: none; border-radius: 50%; width: 28px; height: 28px; font-size: .85rem; cursor: pointer; }
-    #avatar-input { display: none; }
-    .profile-fields { display: flex; flex-direction: column; gap: .65rem; flex: 1; min-width: 220px; }
-    .profile-fields input {
-      padding: .65rem 1rem; border: 1.5px solid var(--border); border-radius: 10px; background: var(--bg); color: var(--text);
-      font-family: 'Lato', sans-serif; font-size: .95rem; outline: none; transition: border-color .2s;
-    }
-    .profile-fields input:focus { border-color: var(--rose-dark); }
-    .profile-save { align-self: flex-start; margin-top: .25rem; }
-    .profile-saved-msg { font-size: .8rem; color: var(--rose-dark); font-weight: 700; display: none; }
     .section-title { font-size: 1.6rem; color: var(--text); margin-bottom: 1.5rem; }
     .section-title span { font-size: .75rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--tan); display: block; margin-bottom: .3rem; }
     .add-item-card { background: var(--card); border: 1.5px solid var(--border); border-radius: 20px; padding: 2rem; margin-bottom: 3rem; }
@@ -82,6 +65,7 @@
       .dash-stats { grid-template-columns: 1fr 1fr; }
       .dash-stat h3 { font-size: 1.5rem; }
     </style>
+</head>
 
   <body>
     
@@ -126,7 +110,7 @@
 
   <div class="toast" id="toast"></div>
 
-  </body>
+  
 
   <script>
       const SERVER_URL = 'https://harmonious-flow-production-0060.up.railway.app';
@@ -308,3 +292,5 @@
     function logOut() { window.__empressLogout && window.__empressLogout(); }  
     
   </script>
+  </body>
+</html>
